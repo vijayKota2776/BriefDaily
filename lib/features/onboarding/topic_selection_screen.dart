@@ -43,7 +43,8 @@ class _TopicSelectionScreenState extends ConsumerState<TopicSelectionScreen> {
             Text(
               'Select the topics you care about to personalize your daily brief.',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+                color: Theme.of(context).colorScheme.onSurface
+                    .withValues(alpha: 0.7),
               ),
             ),
             const SizedBox(height: AppSpacing.s24),
