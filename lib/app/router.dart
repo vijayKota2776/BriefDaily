@@ -5,6 +5,7 @@ import '../features/onboarding/welcome_screen.dart';
 import '../features/onboarding/topic_selection_screen.dart';
 import '../features/onboarding/personalization_screen.dart';
 import '../features/article/article_detail_screen.dart';
+import '../features/profile/edit_interests_screen.dart';
 import '../models/article.dart';
 
 class AppRouter {
@@ -18,6 +19,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const TopicSelectionScreen());
       case '/personalization':
         return MaterialPageRoute(builder: (_) => const PersonalizationScreen());
+      case '/edit_interests':
+        return MaterialPageRoute(builder: (_) => const EditInterestsScreen());
       case '/article':
         final article = settings.arguments as Article;
         return MaterialPageRoute(
@@ -26,7 +29,7 @@ class AppRouter {
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
-            body: Center(child: Text('No route defined for \${settings.name}')),
+            body: Center(child: Text('No route defined for ${settings.name}')),
           ),
         );
     }

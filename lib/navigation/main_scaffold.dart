@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../features/digest/digest_screen.dart';
+import '../features/explore/explore_screen.dart';
+import '../features/bookmarks/bookmarks_screen.dart';
+import '../features/profile/profile_screen.dart';
 
 class MainScaffold extends StatefulWidget {
   const MainScaffold({super.key});
@@ -14,9 +17,9 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   final List<Widget> _screens = [
     const DigestScreen(),
-    const Center(child: Text('Explore (Coming Soon)')),
-    const Center(child: Text('Bookmarks (Coming Soon)')),
-    const Center(child: Text('Profile (Coming Soon)')),
+    const ExploreScreen(),
+    const BookmarksScreen(),
+    const ProfileScreen(),
   ];
 
   @override
