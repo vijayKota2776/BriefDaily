@@ -16,6 +16,15 @@ final allArticlesProvider = FutureProvider<List<Article>>((ref) async {
   return await service.fetchTopHeadlines(topics);
 });
 
+final searchProvider = FutureProvider.family<List<Article>, String>((
+  ref,
+  query,
+) async {
+  if (query.isEmpty) return [];
+  final newsService = ref.read(newsServiceProvider);
+  return newsService.searchArticles(query);
+});
+
 final digestProvider = FutureProvider<List<Article>>((ref) async {
   final allArticles = await ref.watch(allArticlesProvider.future);
   return allArticles;

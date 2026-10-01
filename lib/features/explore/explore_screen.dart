@@ -3,9 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../providers/article_provider.dart';
-import '../../data/mock_topics.dart';
 import '../digest/widgets/article_card.dart';
-import '../../app/theme/app_spacing.dart';
 
 class ExploreScreen extends ConsumerStatefulWidget {
   const ExploreScreen({super.key});
@@ -16,100 +14,110 @@ class ExploreScreen extends ConsumerStatefulWidget {
 
 class _ExploreScreenState extends ConsumerState<ExploreScreen> {
   String _searchQuery = '';
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final allArticlesAsync = ref.watch(allArticlesProvider);
-
     return Scaffold(
-      appBar: AppBar(title: const Text('Explore')),
+      appBar: AppBar(title: const Text('Explore'), elevation: 0),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.all(AppSpacing.s16),
+            padding: const EdgeInsets.all(16.0),
             child: TextField(
-              decoration: const InputDecoration(
-                hintText: 'Search BriefDaily...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
+              controller: _controller,
+              decoration: InputDecoration(
+                hintText: 'Search the web for news...',
+                prefixIcon: const Icon(Icons.search),
+                suffixIcon: _searchQuery.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          _controller.clear();
+                          setState(() {
+                            _searchQuery = '';
+                          });
+                        },
+                      )
+                    : null,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide.none,
+                ),
+                filled: true,
+                fillColor: Theme.of(context).colorScheme.surfaceContainerHighest
+                    .withValues(alpha: 0.5),
               ),
-              onChanged: (value) {
+              onSubmitted: (value) {
                 setState(() {
                   _searchQuery = value;
                 });
               },
             ),
+          ).animate().slideY(begin: -0.2).fadeIn(),
+
+          Expanded(
+            child: _searchQuery.isEmpty
+                ? _buildEmptyState()
+                : _buildSearchResults(),
           ),
-          if (_searchQuery.isEmpty) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s16),
-              child: Text(
-                'Topics',
-                style: Theme.of(context).textTheme.titleLarge,
-              ).animate().fadeIn().slideX(begin: -0.1),
-            ),
-            const SizedBox(height: AppSpacing.s16),
-            Expanded(
-              child: GridView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s16),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 2.5,
-                  crossAxisSpacing: AppSpacing.s8,
-                  mainAxisSpacing: AppSpacing.s8,
-                ),
-                itemCount: mockTopics.length,
-                itemBuilder: (context, index) {
-                  final topic = mockTopics[index];
-                  return Card(
-                        elevation: 0,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .surfaceContainerHighest,
-                        child: Center(
-                          child: Text(
-                            '${topic.icon} ${topic.name}',
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      )
-                      .animate()
-                      .fadeIn(duration: 400.ms, delay: (index * 50).ms)
-                      .scale(
-                        begin: const Offset(0.8, 0.8),
-                        curve: Curves.easeOutBack,
-                      );
-                },
-              ),
-            ),
-          ] else ...[
-            Expanded(
-              child: allArticlesAsync.when(
-                data: (articles) {
-                  final results = articles.where((a) {
-                    final q = _searchQuery.toLowerCase();
-                    return a.title.toLowerCase().contains(q) ||
-                        a.summary.toLowerCase().contains(q);
-                  }).toList();
-
-                  if (results.isEmpty) {
-                    return const Center(child: Text('No stories found'));
-                  }
-
-                  return ListView.builder(
-                    itemCount: results.length,
-                    itemBuilder: (context, index) =>
-                        ArticleCard(article: results[index]),
-                  );
-                },
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (err, stack) => Center(child: Text('Error: $err')),
-              ),
-            ),
-          ],
         ],
       ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.travel_explore,
+            size: 80,
+            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Discover Stories',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Search for any topic worldwide.',
+            style: Theme.of(context).textTheme.bodyLarge
+                ?.copyWith(color: Colors.grey),
+          ),
+        ],
+      ).animate().fadeIn(delay: 200.ms),
+    );
+  }
+
+  Widget _buildSearchResults() {
+    final searchAsync = ref.watch(searchProvider(_searchQuery));
+
+    return searchAsync.when(
+      data: (articles) {
+        if (articles.isEmpty) {
+          return const Center(child: Text('No stories found for this query.'));
+        }
+        return ListView.builder(
+          itemCount: articles.length,
+          itemBuilder: (context, index) {
+            return ArticleCard(article: articles[index])
+                .animate()
+                .fadeIn(duration: 300.ms, delay: (index * 50).ms)
+                .slideX(begin: 0.1);
+          },
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => Center(child: Text('Error: $err')),
     );
   }
 }

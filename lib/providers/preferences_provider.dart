@@ -1,60 +1,32 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import '../models/user_preferences.dart';
+import '../data/repositories/preferences_repository.dart';
 
 class PreferencesNotifier extends Notifier<UserPreferences> {
-  late Box _box;
+  final PreferencesRepository _repository = PreferencesRepository();
 
   @override
   UserPreferences build() {
-    _box = Hive.box('preferencesBox');
-    return _loadPreferences();
-  }
-
-  UserPreferences _loadPreferences() {
-    final onboardingCompleted = _box.get(
-      'onboardingCompleted',
-      defaultValue: false,
-    );
-    final selectedTopics = List<String>.from(
-      _box.get('selectedTopics', defaultValue: []),
-    );
-    final themeString = _box.get('themePreference', defaultValue: 'system');
-    final streakCount = _box.get('streakCount', defaultValue: 0);
-
-    final lastReadDateString = _box.get('lastReadDate');
-    DateTime? lastReadDate;
-    if (lastReadDateString != null) {
-      lastReadDate = DateTime.tryParse(lastReadDateString);
-    }
-
-    ThemePreference theme = ThemePreference.system;
-    if (themeString == 'light') theme = ThemePreference.light;
-    if (themeString == 'dark') theme = ThemePreference.dark;
-
-    return UserPreferences(
-      onboardingCompleted: onboardingCompleted,
-      selectedTopics: selectedTopics,
-      themePreference: theme,
-      streakCount: streakCount,
-      lastReadDate: lastReadDate,
-    );
+    return _repository.getPreferences();
   }
 
   Future<void> completeOnboarding() async {
-    await _box.put('onboardingCompleted', true);
-    state = state.copyWith(onboardingCompleted: true);
+    final newState = state.copyWith(onboardingCompleted: true);
+    await _repository.savePreferences(newState);
+    state = newState;
   }
 
   Future<void> updateTopics(List<String> topics) async {
-    await _box.put('selectedTopics', topics);
-    state = state.copyWith(selectedTopics: topics);
+    final newState = state.copyWith(selectedTopics: topics);
+    await _repository.savePreferences(newState);
+    state = newState;
   }
 
   Future<void> updateTheme(ThemePreference theme) async {
-    await _box.put('themePreference', theme.name);
-    state = state.copyWith(themePreference: theme);
+    final newState = state.copyWith(themePreference: theme);
+    await _repository.savePreferences(newState);
+    state = newState;
   }
 
   Future<void> recordArticleRead() async {
@@ -75,18 +47,15 @@ class PreferencesNotifier extends Notifier<UserPreferences> {
       final difference = today.difference(lastReadDay).inDays;
 
       if (difference == 1) {
-        // Read on consecutive day, increment streak
         newStreak += 1;
       } else if (difference > 1) {
-        // Streak broken
         newStreak = 1;
       }
-      // If difference == 0, they already read today, keep streak as is
     }
 
-    await _box.put('streakCount', newStreak);
-    await _box.put('lastReadDate', now.toIso8601String());
-    state = state.copyWith(streakCount: newStreak, lastReadDate: now);
+    final newState = state.copyWith(streakCount: newStreak, lastReadDate: now);
+    await _repository.savePreferences(newState);
+    state = newState;
   }
 }
 

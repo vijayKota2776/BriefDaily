@@ -41,6 +41,7 @@ dependencies:
   flutter_animate: ^4.5.2
   http: ^1.6.0
   cached_network_image: ^4.0.4
+  flutter_tts: ^4.2.5
 
 dev_dependencies:
   flutter_test:

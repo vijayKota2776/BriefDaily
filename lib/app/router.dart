@@ -6,7 +6,6 @@ import '../features/onboarding/topic_selection_screen.dart';
 import '../features/onboarding/personalization_screen.dart';
 import '../features/article/article_detail_screen.dart';
 import '../features/profile/edit_interests_screen.dart';
-import '../models/article.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -22,9 +21,9 @@ class AppRouter {
       case '/edit_interests':
         return MaterialPageRoute(builder: (_) => const EditInterestsScreen());
       case '/article':
-        final article = settings.arguments as Article;
         return MaterialPageRoute(
-          builder: (_) => ArticleDetailScreen(article: article),
+          builder: (_) => const ArticleDetailScreen(),
+          settings: settings,
         );
       default:
         return MaterialPageRoute(
