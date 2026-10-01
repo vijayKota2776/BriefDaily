@@ -1,31 +1,21 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../models/article.dart';
-import '../data/repositories/article_repository.dart';
-import 'topic_provider.dart';
+import '../services/news_service.dart';
+import 'preferences_provider.dart';
 
-final articleRepositoryProvider = Provider<ArticleRepository>((ref) {
-  return ArticleRepository();
-});
+final newsServiceProvider = Provider((ref) => NewsService());
 
 final allArticlesProvider = FutureProvider<List<Article>>((ref) async {
-  final repository = ref.watch(articleRepositoryProvider);
-  return repository.getArticles();
+  final prefs = ref.watch(preferencesProvider);
+  final service = ref.read(newsServiceProvider);
+  
+  final topics = prefs.selectedTopics;
+  if (topics.isEmpty) return [];
+
+  return await service.fetchTopHeadlines(topics);
 });
 
-final digestProvider = Provider<AsyncValue<List<Article>>>((ref) {
-  final articlesAsync = ref.watch(allArticlesProvider);
-  final selectedTopics = ref.watch(selectedTopicsProvider);
-
-  return articlesAsync.whenData((articles) {
-    List<Article> filtered = articles;
-    if (selectedTopics.isNotEmpty) {
-      filtered = articles
-          .where((a) => selectedTopics.contains(a.topic))
-          .toList();
-    }
-    // Sort by newest
-    filtered.sort((a, b) => b.publishedAt.compareTo(a.publishedAt));
-    return filtered;
-  });
+final digestProvider = FutureProvider<List<Article>>((ref) async {
+  final allArticles = await ref.watch(allArticlesProvider.future);
+  return allArticles;
 });
