@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../providers/article_provider.dart';
 import 'widgets/article_card.dart';
@@ -32,13 +33,20 @@ class DigestScreen extends ConsumerWidget {
               itemCount: articles.length,
               itemBuilder: (context, index) {
                 final article = articles[index];
-                return ArticleCard(article: article);
+                return ArticleCard(article: article)
+                    .animate()
+                    .fadeIn(duration: 400.ms, delay: (index * 100).ms)
+                    .slideX(
+                      begin: 0.1,
+                      duration: 400.ms,
+                      curve: Curves.easeOutQuad,
+                    );
               },
             ),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: \$err')),
+        error: (err, stack) => Center(child: Text('Error: $err')),
       ),
     );
   }

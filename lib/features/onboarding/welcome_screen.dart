@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../app/theme/app_spacing.dart';
 
@@ -17,39 +18,64 @@ class WelcomeScreen extends StatelessWidget {
             children: [
               const Spacer(),
               Icon(
-                Icons.article_outlined,
-                size: 80,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+                    Icons.article_outlined,
+                    size: 80,
+                    color: Theme.of(context).colorScheme.primary,
+                  )
+                  .animate()
+                  .scale(duration: 600.ms, curve: Curves.easeOutBack)
+                  .fadeIn(),
               const SizedBox(height: AppSpacing.s32),
               Text(
-                'BriefDaily',
-                style: Theme.of(context).textTheme.displayLarge,
-                textAlign: TextAlign.center,
-              ),
+                    'BriefDaily',
+                    style: Theme.of(context).textTheme.displayLarge,
+                    textAlign: TextAlign.center,
+                  )
+                  .animate(delay: 200.ms)
+                  .slideY(
+                    begin: 0.5,
+                    duration: 500.ms,
+                    curve: Curves.easeOutQuad,
+                  )
+                  .fadeIn(),
               const SizedBox(height: AppSpacing.s16),
               Text(
-                'Your news.\nYour interests.\nYour daily brief.',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface
-                      .withValues(alpha: 0.7),
-                  fontWeight: FontWeight.normal,
-                ),
-                textAlign: TextAlign.center,
-              ),
+                    'Your news.\nYour interests.\nYour daily brief.',
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface
+                          .withValues(alpha: 0.7),
+                      fontWeight: FontWeight.normal,
+                    ),
+                    textAlign: TextAlign.center,
+                  )
+                  .animate(delay: 400.ms)
+                  .slideY(
+                    begin: 0.5,
+                    duration: 500.ms,
+                    curve: Curves.easeOutQuad,
+                  )
+                  .fadeIn(),
               const Spacer(),
               FilledButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/topic_selection');
-                },
-                style: FilledButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.s16),
-                ),
-                child: const Text(
-                  'Get Started',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        '/topic_selection',
+                      );
+                    },
+                    style: FilledButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: AppSpacing.s16,
+                      ),
+                    ),
+                    child: const Text(
+                      'Get Started',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  )
+                  .animate(delay: 600.ms)
+                  .fadeIn(duration: 500.ms)
+                  .scale(begin: const Offset(0.9, 0.9)),
               const SizedBox(height: AppSpacing.s24),
             ],
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../providers/article_provider.dart';
 import '../../data/mock_topics.dart';
@@ -46,7 +47,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
               child: Text(
                 'Topics',
                 style: Theme.of(context).textTheme.titleLarge,
-              ),
+              ).animate().fadeIn().slideX(begin: -0.1),
             ),
             const SizedBox(height: AppSpacing.s16),
             Expanded(
@@ -62,17 +63,23 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                 itemBuilder: (context, index) {
                   final topic = mockTopics[index];
                   return Card(
-                    elevation: 0,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .surfaceContainerHighest,
-                    child: Center(
-                      child: Text(
-                        '${topic.icon} ${topic.name}',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  );
+                        elevation: 0,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerHighest,
+                        child: Center(
+                          child: Text(
+                            '${topic.icon} ${topic.name}',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      )
+                      .animate()
+                      .fadeIn(duration: 400.ms, delay: (index * 50).ms)
+                      .scale(
+                        begin: const Offset(0.8, 0.8),
+                        curve: Curves.easeOutBack,
+                      );
                 },
               ),
             ),
