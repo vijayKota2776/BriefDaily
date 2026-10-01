@@ -34,11 +34,14 @@ class Article {
       source: json['source']?['name'] ?? 'Unknown Source',
       topic: topicName,
       author: json['author'],
-      readingTime: ((json['content']?.length ?? 0) / 1000).ceil().clamp(1, 10).toInt(),
+      readingTime: ((json['content']?.length ?? 0) / 1000)
+          .ceil()
+          .clamp(1, 10)
+          .toInt(),
       imageUrl: json['urlToImage'],
       url: json['url'],
-      publishedAt: json['publishedAt'] != null 
-          ? DateTime.tryParse(json['publishedAt']) ?? DateTime.now() 
+      publishedAt: json['publishedAt'] != null
+          ? DateTime.tryParse(json['publishedAt']) ?? DateTime.now()
           : DateTime.now(),
     );
   }

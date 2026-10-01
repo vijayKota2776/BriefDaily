@@ -1,25 +1,33 @@
 enum ThemePreference { system, light, dark }
 
 class UserPreferences {
+  final bool onboardingCompleted;
   final List<String> selectedTopics;
   final ThemePreference themePreference;
-  final bool onboardingCompleted;
+  final int streakCount;
+  final DateTime? lastReadDate;
 
-  const UserPreferences({
+  UserPreferences({
+    this.onboardingCompleted = false,
     this.selectedTopics = const [],
     this.themePreference = ThemePreference.system,
-    this.onboardingCompleted = false,
+    this.streakCount = 0,
+    this.lastReadDate,
   });
 
   UserPreferences copyWith({
+    bool? onboardingCompleted,
     List<String>? selectedTopics,
     ThemePreference? themePreference,
-    bool? onboardingCompleted,
+    int? streakCount,
+    DateTime? lastReadDate,
   }) {
     return UserPreferences(
+      onboardingCompleted: onboardingCompleted ?? this.onboardingCompleted,
       selectedTopics: selectedTopics ?? this.selectedTopics,
       themePreference: themePreference ?? this.themePreference,
-      onboardingCompleted: onboardingCompleted ?? this.onboardingCompleted,
+      streakCount: streakCount ?? this.streakCount,
+      lastReadDate: lastReadDate ?? this.lastReadDate,
     );
   }
 }

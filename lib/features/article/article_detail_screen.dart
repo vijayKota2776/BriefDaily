@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 import 'dart:ui';
+
 import '../../models/article.dart';
 import '../../providers/bookmark_provider.dart';
 import '../../app/theme/app_spacing.dart';
@@ -29,7 +31,11 @@ class ArticleDetailScreen extends ConsumerWidget {
                       imageUrl: article.imageUrl!,
                       fit: BoxFit.cover,
                     )
-                  : Container(color: Theme.of(context).colorScheme.surfaceContainerHighest),
+                  : Container(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .surfaceContainerHighest,
+                    ),
             ),
             actions: [
               ClipRRect(
@@ -39,9 +45,14 @@ class ArticleDetailScreen extends ConsumerWidget {
                   child: Container(
                     color: Colors.black.withValues(alpha: 0.2),
                     child: IconButton(
-                      icon: Icon(isBookmarked ? Icons.bookmark : Icons.bookmark_border, color: Colors.white),
+                      icon: Icon(
+                        isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                        color: Colors.white,
+                      ),
                       onPressed: () {
-                        ref.read(bookmarkProvider.notifier).toggleBookmark(article.id);
+                        ref
+                            .read(bookmarkProvider.notifier)
+                            .toggleBookmark(article.id);
                       },
                     ),
                   ),
@@ -73,9 +84,9 @@ class ArticleDetailScreen extends ConsumerWidget {
                   Text(
                     article.topic.toUpperCase(),
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ).animate().fadeIn().slideY(begin: -0.2),
                   const SizedBox(height: AppSpacing.s8),
                   Text(
@@ -98,7 +109,8 @@ class ArticleDetailScreen extends ConsumerWidget {
                               article.author ?? article.source,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             Text(
                               '${article.readingTime} min read',
@@ -113,26 +125,39 @@ class ArticleDetailScreen extends ConsumerWidget {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondaryContainer.withValues(alpha: 0.5),
+                      color: Theme.of(context).colorScheme.secondaryContainer
+                          .withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.2)),
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.secondary
+                            .withValues(alpha: 0.2),
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.auto_awesome, size: 16, color: Theme.of(context).colorScheme.secondary),
+                            Icon(
+                              Icons.auto_awesome,
+                              size: 16,
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
                             const SizedBox(width: 8),
-                            Text('AI Summary', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.secondary)),
+                            Text(
+                              'AI Summary',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 8),
                         Text(
                           article.summary,
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.w500,
-                              ),
+                          style: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
@@ -140,7 +165,8 @@ class ArticleDetailScreen extends ConsumerWidget {
                   const SizedBox(height: AppSpacing.s24),
                   Text(
                     article.content,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(height: 1.6),
+                    style: Theme.of(context).textTheme.bodyLarge
+                        ?.copyWith(height: 1.6),
                   ).animate(delay: 400.ms).fadeIn(duration: 600.ms),
                   const SizedBox(height: AppSpacing.s48),
                 ],

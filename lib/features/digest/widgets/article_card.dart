@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 import '../../../models/article.dart';
 import '../../../providers/bookmark_provider.dart';
+import '../../../providers/preferences_provider.dart';
 import '../../../app/theme/app_spacing.dart';
 
 class ArticleCard extends ConsumerWidget {
@@ -18,13 +20,18 @@ class ArticleCard extends ConsumerWidget {
 
     return InkWell(
       onTap: () {
+        ref.read(preferencesProvider.notifier).recordArticleRead();
         Navigator.pushNamed(context, '/article', arguments: article);
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: AppSpacing.s16, vertical: AppSpacing.s8),
+        margin: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.s16,
+          vertical: AppSpacing.s8,
+        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+          color: Theme.of(context).colorScheme.surfaceContainerHighest
+              .withValues(alpha: 0.3),
         ),
         clipBehavior: Clip.antiAlias,
         child: Column(
@@ -55,26 +62,38 @@ class ArticleCard extends ConsumerWidget {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primaryContainer,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
                           article.topic.toUpperCase(),
-                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          style: Theme.of(context).textTheme.labelSmall
+                              ?.copyWith(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer,
                                 fontWeight: FontWeight.bold,
                               ),
                         ),
                       ),
                       const Spacer(),
                       IconButton(
-                        icon: Icon(isBookmarked ? Icons.bookmark : Icons.bookmark_border),
-                        color: isBookmarked ? Theme.of(context).colorScheme.primary : null,
+                        icon: Icon(
+                          isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                        ),
+                        color: isBookmarked
+                            ? Theme.of(context).colorScheme.primary
+                            : null,
                         onPressed: () {
                           HapticFeedback.lightImpact();
-                          ref.read(bookmarkProvider.notifier).toggleBookmark(article.id);
+                          ref
+                              .read(bookmarkProvider.notifier)
+                              .toggleBookmark(article.id);
                         },
                       ),
                     ],
@@ -82,7 +101,8 @@ class ArticleCard extends ConsumerWidget {
                   const SizedBox(height: AppSpacing.s8),
                   Text(
                     article.title,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.titleLarge
+                        ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: AppSpacing.s8),
                   Row(
@@ -92,19 +112,28 @@ class ArticleCard extends ConsumerWidget {
                           article.source,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface
+                                    .withValues(alpha: 0.6),
                               ),
                         ),
                       ),
                       const SizedBox(width: AppSpacing.s8),
-                      Text('·', style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6))),
+                      Text(
+                        '·',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface
+                              .withValues(alpha: 0.6),
+                        ),
+                      ),
                       const SizedBox(width: AppSpacing.s8),
                       Text(
                         '${article.readingTime} min read',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
-                            ),
+                          color: Theme.of(context).colorScheme.onSurface
+                              .withValues(alpha: 0.6),
+                        ),
                       ),
                     ],
                   ),
