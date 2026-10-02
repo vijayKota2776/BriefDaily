@@ -1,3 +1,4 @@
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,8 +16,8 @@ class ArticleCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bookmarkedIds = ref.watch(bookmarkProvider);
-    final isBookmarked = bookmarkedIds.contains(article.id);
+    final bookmarkedArticles = ref.watch(bookmarkProvider);
+    final isBookmarked = bookmarkedArticles.any((a) => a.id == article.id);
 
     return InkWell(
       onTap: () {
@@ -76,7 +77,7 @@ class ArticleCard extends ConsumerWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '${article.source} · ${article.readingTime} min',
+                    '${article.source} · ${timeago.format(article.publishedAt)} · ${article.readingTime} min',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(context).colorScheme.onSurface
                           .withValues(alpha: 0.6),
@@ -96,7 +97,7 @@ class ArticleCard extends ConsumerWidget {
                         .withValues(alpha: 0.6),
               onPressed: () {
                 HapticFeedback.lightImpact();
-                ref.read(bookmarkProvider.notifier).toggleBookmark(article.id);
+                ref.read(bookmarkProvider.notifier).toggleBookmark(article);
               },
             ),
           ],

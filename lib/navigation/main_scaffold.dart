@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../features/digest/home_screen.dart';
+import '../features/digest/digest_screen.dart';
 import '../features/explore/explore_screen.dart';
 import '../features/bookmarks/bookmarks_screen.dart';
 import '../features/profile/profile_screen.dart';
@@ -17,7 +17,7 @@ class _MainScaffoldState extends ConsumerState<MainScaffold> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = const [
-    HomeScreen(),
+    DigestScreen(),
     ExploreScreen(),
     BookmarksScreen(),
     ProfileScreen(),

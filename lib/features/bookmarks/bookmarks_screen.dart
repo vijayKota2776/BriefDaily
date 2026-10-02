@@ -57,7 +57,7 @@ class BookmarksScreen extends ConsumerWidget {
                     HapticFeedback.lightImpact();
                     ref
                         .read(bookmarkProvider.notifier)
-                        .toggleBookmark(article.id);
+                        .toggleBookmark(article);
 
                     ScaffoldMessenger.of(context).clearSnackBars();
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -72,7 +72,7 @@ class BookmarksScreen extends ConsumerWidget {
                           onPressed: () {
                             ref
                                 .read(bookmarkProvider.notifier)
-                                .toggleBookmark(article.id);
+                                .toggleBookmark(article);
                           },
                         ),
                       ),

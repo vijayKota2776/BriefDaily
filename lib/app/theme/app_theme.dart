@@ -16,7 +16,7 @@ class AppTheme {
         surface: lightBackground,
         primary: primaryBlue,
       ),
-      textTheme: GoogleFonts.interTextTheme(ThemeData.light().textTheme),
+      fontFamily: GoogleFonts.inter().fontFamily,
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -34,7 +34,7 @@ class AppTheme {
         surface: darkBackground,
         primary: primaryBlue,
       ),
-      textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
+      fontFamily: GoogleFonts.inter().fontFamily,
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,

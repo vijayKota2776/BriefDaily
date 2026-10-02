@@ -49,8 +49,8 @@ class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final article = ModalRoute.of(context)!.settings.arguments as Article;
-    final bookmarkedIds = ref.watch(bookmarkProvider);
-    final isBookmarked = bookmarkedIds.contains(article.id);
+    final bookmarkedArticles = ref.watch(bookmarkProvider);
+    final isBookmarked = bookmarkedArticles.any((a) => a.id == article.id);
 
     return Scaffold(
       body: CustomScrollView(
@@ -99,7 +99,7 @@ class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
                           HapticFeedback.heavyImpact();
                           ref
                               .read(bookmarkProvider.notifier)
-                              .toggleBookmark(article.id);
+                              .toggleBookmark(article);
                           if (!isBookmarked) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(

@@ -45,4 +45,36 @@ class Article {
           : DateTime.now(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'summary': summary,
+      'content': content,
+      'source': source,
+      'topic': topic,
+      'author': author,
+      'readingTime': readingTime,
+      'imageUrl': imageUrl,
+      'url': url,
+      'publishedAt': publishedAt.toIso8601String(),
+    };
+  }
+
+  factory Article.fromStore(Map<String, dynamic> json) {
+    return Article(
+      id: json['id'],
+      title: json['title'],
+      summary: json['summary'],
+      content: json['content'],
+      source: json['source'],
+      topic: json['topic'],
+      author: json['author'],
+      readingTime: json['readingTime'],
+      imageUrl: json['imageUrl'],
+      url: json['url'],
+      publishedAt: DateTime.parse(json['publishedAt']),
+    );
+  }
 }

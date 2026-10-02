@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:hive/hive.dart';
+import '../../models/article.dart';
 
 class BookmarkRepository {
   static const String _boxName = 'bookmarks';
@@ -7,26 +9,20 @@ class BookmarkRepository {
     await Hive.openBox<String>(_boxName);
   }
 
-  List<String> getBookmarkedArticleIds() {
+  List<Article> getBookmarkedArticles() {
     final box = Hive.box<String>(_boxName);
-    return box.values.toList();
+    return box.values.map((v) => Article.fromStore(json.decode(v))).toList();
   }
 
-  Future<void> addBookmark(String articleId) async {
+  Future<void> addBookmark(Article article) async {
     final box = Hive.box<String>(_boxName);
-    if (!box.values.contains(articleId)) {
-      await box.add(articleId);
-    }
+    await box.put(article.id, json.encode(article.toJson()));
   }
 
   Future<void> removeBookmark(String articleId) async {
     final box = Hive.box<String>(_boxName);
-    final key = box.keys.firstWhere(
-      (k) => box.get(k) == articleId,
-      orElse: () => null,
-    );
-    if (key != null) {
-      await box.delete(key);
+    if (box.containsKey(articleId)) {
+      await box.delete(articleId);
     }
   }
 }

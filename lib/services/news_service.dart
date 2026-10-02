@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import '../models/article.dart';
 
 class NewsService {
-  static const String _apiKey = '96d4841970994aeca6abd3ea7663d8db';
+  static const String _apiKey = String.fromEnvironment('NEWS_API_KEY', defaultValue: '96d4841970994aeca6abd3ea7663d8db');
   static const String _baseUrl = 'https://newsapi.org/v2';
 
   Future<List<Article>> fetchTopHeadlines(List<String> topics) async {
@@ -37,7 +37,7 @@ class NewsService {
         }
       }
 
-      allArticles.shuffle();
+      allArticles.sort((a, b) => b.publishedAt.compareTo(a.publishedAt));
       return allArticles;
     } catch (e) {
       return [];
