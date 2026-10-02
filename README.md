@@ -2127,108 +2127,116 @@ It should feel like a **personal daily briefing**.
 
 ## Phase 1 — Project Setup
 
-* [ ] Create Flutter project
-* [ ] Configure Material 3
-* [ ] Configure folder architecture
-* [ ] Add Riverpod
-* [ ] Add local storage
-* [ ] Configure theme
+* [x] Create Flutter project
+* [x] Configure Material 3
+* [x] Configure folder architecture
+* [x] Add Riverpod
+* [x] Add local storage
+* [x] Configure theme
 
 ---
 
 ## Phase 2 — Data Layer
 
-* [ ] Create Article model
-* [ ] Create Topic model
-* [ ] Create mock article dataset
-* [ ] Create repositories
-* [ ] Implement local storage
+* [x] Create Article model
+* [x] Create Topic model
+* [x] Create mock article dataset (Replaced with live API)
+* [x] Create repositories
+* [x] Implement local storage (Migrated to Firebase)
 
 ---
 
 ## Phase 3 — Onboarding
 
-* [ ] Splash screen
-* [ ] Welcome screen
-* [ ] Onboarding
-* [ ] Topic selection
-* [ ] Topic persistence
-* [ ] Personalization screen
+* [x] Splash screen
+* [x] Welcome screen
+* [x] Onboarding
+* [x] Topic selection
+* [x] Topic persistence
+* [x] Personalization screen
 
 ---
 
 ## Phase 4 — Digest
 
-* [ ] Home screen
-* [ ] Digest header
-* [ ] Featured article
-* [ ] Article cards
-* [ ] Topic filtering
-* [ ] Latest-first sorting
-* [ ] Pull-to-refresh
+* [x] Home screen
+* [x] Digest header
+* [x] Featured article
+* [x] Article cards
+* [x] Topic filtering
+* [x] Latest-first sorting
+* [x] Pull-to-refresh
 
 ---
 
 ## Phase 5 — Article Experience
 
-* [ ] Article detail
-* [ ] Hero image
-* [ ] Article metadata
-* [ ] Reading time
-* [ ] Bookmark action
-* [ ] Reading progress
+* [x] Article detail
+* [x] Hero image
+* [x] Article metadata
+* [x] Reading time
+* [x] Bookmark action
+* [x] Reading progress
 
 ---
 
 ## Phase 6 — Bookmarks
 
-* [ ] Bookmark provider
-* [ ] Bookmark persistence
-* [ ] Bookmarks screen
-* [ ] Remove bookmark
-* [ ] Swipe-to-delete
-* [ ] Undo action
-* [ ] Empty state
+* [x] Bookmark provider
+* [x] Bookmark persistence
+* [x] Bookmarks screen
+* [x] Remove bookmark
+* [x] Swipe-to-delete
+* [x] Undo action
+* [x] Empty state
 
 ---
 
 ## Phase 7 — Explore & Preferences
 
-* [ ] Explore screen
-* [ ] Search
-* [ ] Topic filtering
-* [ ] Edit interests
-* [ ] Settings
-* [ ] Theme switching
+* [x] Explore screen
+* [x] Search
+* [x] Topic filtering
+* [x] Edit interests
+* [x] Settings
+* [x] Theme switching
 
 ---
 
 ## Phase 8 — Polish
 
-* [ ] Loading skeletons
-* [ ] Error states
-* [ ] Animations
-* [ ] Accessibility
-* [ ] Responsive tablet UI
-* [ ] Dark mode
-* [ ] UI consistency
+* [x] Loading skeletons
+* [x] Error states
+* [x] Animations
+* [x] Accessibility
+* [x] Responsive tablet UI
+* [x] Dark mode
+* [x] UI consistency
 
 ---
 
 ## Phase 9 — Testing
 
-* [ ] Model tests
-* [ ] Provider tests
-* [ ] Repository tests
-* [ ] Widget tests
-* [ ] Integration tests
+* [x] Model tests
+* [x] Provider tests
+* [x] Repository tests
+* [x] Widget tests
+* [x] Integration tests
+
+---
+
+## 🚀 Phase 11 & 12 — Extra Premium Features
+* [x] **Real Cloud Backend (Firebase):** Live user Authentication (Login/Signup).
+* [x] **Live Global News (NewsAPI):** Live global headlines instead of mock data.
+* [x] **Text-to-Speech (TTS):** Article dictation for accessibility.
+* [x] **Gamification:** Consecutive daily reading streak tracking.
 
 ---
 
 ## Phase 10 — Final Submission
 
 * [ ] Final Figma prototype
-* [ ] README
+* [x] README Updated
 * [ ] Screenshots
 * [ ] Demo video
 * [ ] Source code
