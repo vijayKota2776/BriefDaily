@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../providers/preferences_provider.dart';
 
@@ -23,7 +24,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     ).hasMatch(email);
   }
 
-  void _handleLogin() async {
+  Future<void> _handleLogin() async {
     final email = _emailController.text.trim();
     final password = _passwordController.text;
 
@@ -37,22 +38,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       return;
     }
 
-    if (password.length < 6) {
-      setState(() => _errorMessage = "Password must be at least 6 characters");
-      return;
-    }
-
     setState(() {
       _errorMessage = null;
       _isLoading = true;
     });
 
-    // Simulate network delay for authentication
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-    if (mounted) {
-      ref.read(preferencesProvider.notifier).login();
-      Navigator.pushReplacementNamed(context, '/welcome');
+      if (mounted) {
+        ref.read(preferencesProvider.notifier).login();
+        Navigator.pushReplacementNamed(context, '/welcome');
+      }
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        _errorMessage = e.message ?? "An error occurred during login";
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = "An unexpected error occurred.";
+        _isLoading = false;
+      });
     }
   }
 

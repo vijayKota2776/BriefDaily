@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "16771840661",
+    "project_id": "briefdaily",
+    "storage_bucket": "briefdaily.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16771840661:android:b9e75ff96c6acb597ff99c",
+        "android_client_info": {
+          "package_name": "com.example.briefdaily"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCPtlAUgq8OlkR-GJhDB1N1oCCi6iioQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

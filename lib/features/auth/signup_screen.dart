@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../providers/preferences_provider.dart';
 
@@ -25,7 +26,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     ).hasMatch(email);
   }
 
-  void _handleSignup() async {
+  Future<void> _handleSignup() async {
     final name = _nameController.text.trim();
     final email = _emailController.text.trim();
     final password = _passwordController.text;
@@ -56,12 +57,31 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
       _isLoading = true;
     });
 
-    // Simulate network delay for account creation
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      final userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
 
-    if (mounted) {
-      ref.read(preferencesProvider.notifier).login();
-      Navigator.pushNamedAndRemoveUntil(context, '/welcome', (route) => false);
+      // Update display name
+      await userCredential.user?.updateDisplayName(name);
+
+      if (mounted) {
+        ref.read(preferencesProvider.notifier).login();
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/welcome',
+          (route) => false,
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        _errorMessage = e.message ?? "An error occurred during signup";
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = "An unexpected error occurred.";
+        _isLoading = false;
+      });
     }
   }
 
