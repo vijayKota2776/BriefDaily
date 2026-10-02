@@ -1,4 +1,17 @@
-import 'package:flutter/material.dart';
+import os
+
+def update_file(filepath, callback):
+    if not os.path.exists(filepath):
+        print(f"Skipping {filepath}")
+        return
+    with open(filepath, 'r') as f:
+        content = f.read()
+    content = callback(content)
+    with open(filepath, 'w') as f:
+        f.write(content)
+
+# 1. Update article_card.dart to match Figma (small list tile)
+article_card_code = """import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -48,16 +61,12 @@ class ArticleCard extends ConsumerWidget {
                   placeholder: (context, url) => Container(
                     height: 60,
                     width: 60,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .surfaceContainerHighest,
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
                   ),
                   errorWidget: (context, url, error) => Container(
                     height: 60,
                     width: 60,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .surfaceContainerHighest,
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
                     child: const Icon(Icons.broken_image, size: 24),
                   ),
                 ),
@@ -90,10 +99,7 @@ class ArticleCard extends ConsumerWidget {
                 isBookmarked ? Icons.favorite : Icons.favorite_border,
                 size: 20,
               ),
-              color: isBookmarked
-                  ? Colors.red
-                  : Theme.of(context).colorScheme.onSurface
-                        .withValues(alpha: 0.6),
+              color: isBookmarked ? Colors.red : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               onPressed: () {
                 HapticFeedback.lightImpact();
                 ref.read(bookmarkProvider.notifier).toggleBookmark(article.id);
@@ -105,3 +111,19 @@ class ArticleCard extends ConsumerWidget {
     );
   }
 }
+"""
+
+with open('lib/features/digest/widgets/article_card.dart', 'w') as f:
+    f.write(article_card_code)
+
+
+# 2. Update bookmark icon everywhere else (like article_detail_screen)
+def fix_bookmark_icons(content):
+    content = content.replace("Icons.bookmark_border", "Icons.favorite_border")
+    content = content.replace("Icons.bookmark", "Icons.favorite")
+    return content
+
+update_file('lib/features/digest/article_detail_screen.dart', fix_bookmark_icons)
+update_file('lib/features/bookmarks/widgets/bookmark_card.dart', fix_bookmark_icons)
+
+print("Visual alignment updated")
