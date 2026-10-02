@@ -30,7 +30,7 @@ void main() {
         'content': content,
         'publishedAt': '2023-10-01T12:00:00Z',
       };
-      
+
       final article = Article.fromJson(json, 'topic');
 
       // length is 30,000 / 1000 = 30, clamped to max 10

@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
-
-import 'app_colors.dart';
-import 'app_typography.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
+  // Figma matched colors
+  static const Color primaryBlue = Color(0xFF2563EB);
+  static const Color lightBackground = Color(0xFFF8FAFC);
+  static const Color darkBackground = Color(0xFF0F172A);
+
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
-      colorScheme: const ColorScheme.light(
-        primary: AppColors.lightPrimary,
-        surface: AppColors.lightSurface,
-        onSurface: AppColors.lightText,
-      ).copyWith(surface: AppColors.lightBackground),
-      scaffoldBackgroundColor: AppColors.lightBackground,
-      textTheme: AppTypography.lightTextTheme,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: primaryBlue,
+        brightness: Brightness.light,
+        surface: lightBackground,
+        primary: primaryBlue,
+      ),
+      textTheme: GoogleFonts.interTextTheme(ThemeData.light().textTheme),
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.lightSurface,
-        foregroundColor: AppColors.lightText,
+        backgroundColor: Colors.transparent,
         elevation: 0,
+        centerTitle: false,
       ),
     );
   }
@@ -25,17 +28,17 @@ class AppTheme {
   static ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,
-      colorScheme: const ColorScheme.dark(
-        primary: AppColors.darkPrimary,
-        surface: AppColors.darkSurface,
-        onSurface: AppColors.darkText,
-      ).copyWith(surface: AppColors.darkBackground),
-      scaffoldBackgroundColor: AppColors.darkBackground,
-      textTheme: AppTypography.darkTextTheme,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: primaryBlue,
+        brightness: Brightness.dark,
+        surface: darkBackground,
+        primary: primaryBlue,
+      ),
+      textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.darkSurface,
-        foregroundColor: AppColors.darkText,
+        backgroundColor: Colors.transparent,
         elevation: 0,
+        centerTitle: false,
       ),
     );
   }
