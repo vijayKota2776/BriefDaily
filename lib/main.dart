@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'app/app.dart';
 import 'data/repositories/bookmark_repository.dart';
 import 'data/repositories/preferences_repository.dart';
+import 'services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,11 +20,14 @@ void main() async {
     final bookmarkRepo = BookmarkRepository();
     await bookmarkRepo.init();
 
+    // Init Notifications
+    await NotificationService().init();
+
     runApp(const ProviderScope(child: BriefDailyApp()));
   } catch (e) {
     runApp(
       MaterialApp(
-        home: Scaffold(body: Center(child: Text('Initialization failed: \$e'))),
+        home: Scaffold(body: Center(child: Text('Initialization failed: $e'))),
       ),
     );
   }

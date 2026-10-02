@@ -11,6 +11,18 @@ class PreferencesNotifier extends Notifier<UserPreferences> {
     return _repository.getPreferences();
   }
 
+  Future<void> login() async {
+    final newState = state.copyWith(isAuthenticated: true);
+    await _repository.savePreferences(newState);
+    state = newState;
+  }
+
+  Future<void> logout() async {
+    final newState = state.copyWith(isAuthenticated: false);
+    await _repository.savePreferences(newState);
+    state = newState;
+  }
+
   Future<void> completeOnboarding() async {
     final newState = state.copyWith(onboardingCompleted: true);
     await _repository.savePreferences(newState);

@@ -12,16 +12,23 @@ class BriefDailyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeProvider);
-    final onboardingCompleted = ref.watch(
-      preferencesProvider.select((p) => p.onboardingCompleted),
-    );
+    final prefs = ref.watch(preferencesProvider);
+
+    String initialRoute;
+    if (!prefs.isAuthenticated) {
+      initialRoute = '/login';
+    } else if (!prefs.onboardingCompleted) {
+      initialRoute = '/welcome';
+    } else {
+      initialRoute = '/';
+    }
 
     return MaterialApp(
       title: 'BriefDaily',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,
-      initialRoute: onboardingCompleted ? '/' : '/welcome',
+      initialRoute: initialRoute,
       onGenerateRoute: AppRouter.generateRoute,
       debugShowCheckedModeBanner: false,
     );

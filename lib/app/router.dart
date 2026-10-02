@@ -6,12 +6,18 @@ import '../features/onboarding/topic_selection_screen.dart';
 import '../features/onboarding/personalization_screen.dart';
 import '../features/article/article_detail_screen.dart';
 import '../features/profile/edit_interests_screen.dart';
+import '../features/auth/login_screen.dart';
+import '../features/auth/signup_screen.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => const MainScaffold());
+      case '/login':
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
+      case '/signup':
+        return MaterialPageRoute(builder: (_) => const SignupScreen());
       case '/welcome':
         return MaterialPageRoute(builder: (_) => const WelcomeScreen());
       case '/topic_selection':

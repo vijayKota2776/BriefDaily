@@ -297,9 +297,8 @@ class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _speak(
-          '${article.title}. ${article.summary}. ${article.content}',
-        ),
+        onPressed: () =>
+            _speak('${article.title}. ${article.summary}. ${article.content}'),
         icon: Icon(isPlaying ? Icons.stop : Icons.volume_up),
         label: Text(isPlaying ? 'Stop' : 'Listen'),
       ).animate().scale(delay: 500.ms, duration: 300.ms),

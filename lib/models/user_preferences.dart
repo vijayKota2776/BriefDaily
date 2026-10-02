@@ -2,6 +2,7 @@ enum ThemePreference { system, light, dark }
 
 class UserPreferences {
   final bool onboardingCompleted;
+  final bool isAuthenticated;
   final List<String> selectedTopics;
   final ThemePreference themePreference;
   final int streakCount;
@@ -9,6 +10,7 @@ class UserPreferences {
 
   UserPreferences({
     this.onboardingCompleted = false,
+    this.isAuthenticated = false,
     this.selectedTopics = const [],
     this.themePreference = ThemePreference.system,
     this.streakCount = 0,
@@ -17,6 +19,7 @@ class UserPreferences {
 
   UserPreferences copyWith({
     bool? onboardingCompleted,
+    bool? isAuthenticated,
     List<String>? selectedTopics,
     ThemePreference? themePreference,
     int? streakCount,
@@ -24,6 +27,7 @@ class UserPreferences {
   }) {
     return UserPreferences(
       onboardingCompleted: onboardingCompleted ?? this.onboardingCompleted,
+      isAuthenticated: isAuthenticated ?? this.isAuthenticated,
       selectedTopics: selectedTopics ?? this.selectedTopics,
       themePreference: themePreference ?? this.themePreference,
       streakCount: streakCount ?? this.streakCount,
