@@ -29,6 +29,14 @@ Here is a look at the final application in action!
 
 ## 🔗 Project Links
 
+### 🌐 Live Web App
+
+[Launch BriefDaily in Browser](https://vijaykota2776.github.io/BriefDaily/)
+
+### 📱 Download the App (Android APK & iOS IPA)
+
+[Download from GitHub Releases](https://github.com/vijayKota2776/BriefDaily/releases/latest)
+
 ### 💻 GitHub Repository
 
 https://github.com/vijayKota2776/BriefDaily
@@ -1185,9 +1193,7 @@ The project combines application development, state management, API integration,
 
 ---
 
-# 📜 License
 
-This project was developed as a coursework/project prototype. If the project is distributed publicly or commercially in the future, an appropriate open-source or proprietary license should be added based on the intended usage.
 
 ---
 **👨‍💻 Project**: BriefDaily — Personalized News Digest & Bookmark App
