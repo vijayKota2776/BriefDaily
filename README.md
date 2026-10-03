@@ -1,2252 +1,12 @@
-# 📰 BriefDaily
+# BriefDaily
 
-### Personalized News Digest & Bookmark App
+## Personalized News Digest & Bookmark App
 
-BriefDaily is a modern Flutter application that delivers a personalized daily news digest based on the user's selected interests. Users can choose topics, browse relevant headlines, open article details, bookmark stories for later, and manage their preferences.
+BriefDaily is a personalized news digest and bookmarking application built with **Flutter and Dart**. The application allows users to select topics of interest, browse a personalized collection of current news articles, read articles, and save stories for later.
 
-The application is designed around a simple principle:
+The project combines **Flutter Material 3**, **Riverpod state management**, **Firebase Authentication**, **NewsAPI**, **Hive local persistence**, responsive layouts, and an editorial-style user interface designed in Figma.
 
-> **Your news. Your interests. Your daily brief.**
-
-BriefDaily combines **Flutter**, **Dart**, **Riverpod**, **Material 3**, and **on-device persistence** to create a responsive, reactive, and polished news-reading experience.
-
----
-
-# 📋 Table of Contents
-
-* [Project Overview](#-project-overview)
-* [Problem Statement](#-problem-statement)
-* [Objectives](#-objectives)
-* [Core Concept](#-core-concept)
-* [Key Features](#-key-features)
-* [User Journey](#-user-journey)
-* [Application Screens](#-application-screens)
-* [Technology Stack](#-technology-stack)
-* [Architecture](#-architecture)
-* [Project Structure](#-project-structure)
-* [State Management](#-state-management)
-* [Data Flow](#-data-flow)
-* [Personalization Logic](#-personalization-logic)
-* [Local Storage](#-local-storage)
-* [UI & Design System](#-ui--design-system)
-* [Responsive Design](#-responsive-design)
-* [Navigation](#-navigation)
-* [Article Model](#-article-model)
-* [Topic System](#-topic-system)
-* [Bookmark System](#-bookmark-system)
-* [Loading & Error States](#-loading--error-states)
-* [Accessibility](#-accessibility)
-* [Figma Design](#-figma-design)
-* [Testing](#-testing)
-* [Installation](#-installation)
-* [Running the Project](#-running-the-project)
-* [Build Configuration](#-build-configuration)
-* [Development Guidelines](#-development-guidelines)
-* [Future Enhancements](#-future-enhancements)
-* [Project Deliverables](#-project-deliverables)
-* [Evaluation Mapping](#-evaluation-mapping)
-* [Conclusion](#-conclusion)
-
----
-
-# 🚀 Project Overview
-
-BriefDaily is a personalized news digest application built with Flutter.
-
-Instead of presenting users with an unfiltered stream of articles, BriefDaily allows users to explicitly select the topics they care about.
-
-For example:
-
-```text
-User Interests
-
-✓ Technology
-✓ Artificial Intelligence
-✓ Startups
-✗ Sports
-✗ Entertainment
-```
-
-The application uses these preferences to determine which articles should appear in the user's digest.
-
-The application also provides:
-
-* Article browsing
-* Topic filtering
-* Article sorting
-* Bookmarking
-* Persistent bookmarks
-* Article details
-* Search
-* Explore topics
-* Preference management
-* Light and dark themes
-* Responsive layouts
-* Loading and error states
-* Local data persistence
-
----
-
-# 🎯 Problem Statement
-
-Modern users are exposed to a large amount of news content every day.
-
-Traditional news feeds often present users with hundreds of articles across unrelated subjects. This can create information overload and make it difficult for users to quickly find stories relevant to their interests.
-
-BriefDaily addresses this problem by allowing users to:
-
-1. Select topics they care about.
-2. Receive a digest filtered around those topics.
-3. View recent stories first.
-4. Save interesting articles.
-5. Return to saved stories later.
-6. Change their interests whenever they want.
-
-The application therefore focuses on **personalization, simplicity, and efficient information discovery**.
-
----
-
-# 🎯 Objectives
-
-The primary objectives of BriefDaily are:
-
-### UI & Widgets
-
-Build a functional news application using Flutter widgets including:
-
-* `ListView`
-* `GridView`
-* `Card`
-* `Icon`
-* `Chip`
-* `AppBar`
-* `BottomNavigationBar`
-* `NavigationBar`
-* `Scaffold`
-* `RefreshIndicator`
-* `Dismissible`
-
-### Styling & Theming
-
-Implement a clean editorial design using:
-
-* Material 3
-* Custom typography
-* Consistent spacing
-* Editorial-style headlines
-* Light mode
-* Dark mode
-* Responsive layouts
-
-### Dart Logic
-
-Use Dart and Riverpod to:
-
-* Store selected topics.
-* Filter articles.
-* Sort articles.
-* Manage bookmarks.
-* Update the UI reactively.
-* Maintain application state.
-
-### Local Storage
-
-Persist:
-
-* Selected topics
-* Bookmarked articles
-* User preferences
-
-### Figma
-
-Design the complete user journey from:
-
-```text
-Onboarding
-    ↓
-Topic Selection
-    ↓
-Personalized Digest
-    ↓
-Article
-    ↓
-Bookmark
-    ↓
-Bookmarks
-```
-
----
-
-# 💡 Core Concept
-
-The central BriefDaily experience is:
-
-```text
-Choose Interests
-       ↓
-Personalize Feed
-       ↓
-Browse Daily Digest
-       ↓
-Open Article
-       ↓
-Bookmark
-       ↓
-Read Later
-```
-
-The selected topics act as the foundation of the application's personalization system.
-
----
-
-# ✨ Key Features
-
-## 1. Personalized Topic Selection
-
-Users can select the topics they are interested in.
-
-Example:
-
-```text
-Technology
-AI
-Startups
-Science
-Business
-Sports
-World
-Health
-Finance
-Gaming
-Climate
-Entertainment
-```
-
-Users can select multiple topics.
-
-The selected topics are stored locally so preferences remain available between application sessions.
-
----
-
-# 2. Personalized News Digest
-
-The Home screen displays articles based on the user's selected topics.
-
-Each article card contains:
-
-* Headline
-* Source
-* Topic
-* Published time
-* Reading time
-* Article image
-* Bookmark action
-
-Example:
-
-```text
-TECHNOLOGY
-
-New AI tools are changing
-how developers build software
-
-TechCrunch · 2h ago
-
-♡
-```
-
----
-
-# 3. Latest Articles First
-
-Articles are sorted using their publication timestamp.
-
-The most recently published articles appear first.
-
-Conceptually:
-
-```text
-Article A → 10:30 AM
-Article B → 09:45 AM
-Article C → 08:20 AM
-Article D → 07:10 AM
-```
-
-Result:
-
-```text
-A
-B
-C
-D
-```
-
----
-
-# 4. Featured Story
-
-The first or highest-priority article can be presented as a large featured story.
-
-Example:
-
-```text
-┌─────────────────────────────┐
-│                             │
-│        ARTICLE IMAGE        │
-│                             │
-│  TRENDING                   │
-│                             │
-│  The technology shaping     │
-│  the next decade            │
-│                             │
-│  Wired · 30 min ago      ♡  │
-└─────────────────────────────┘
-```
-
-This creates stronger editorial hierarchy.
-
----
-
-# 5. Article Details
-
-Users can tap an article to open a dedicated article detail screen.
-
-The screen contains:
-
-* Hero image
-* Topic
-* Headline
-* Source
-* Author
-* Published time
-* Reading time
-* Summary
-* Article content
-* Bookmark button
-* External article link
-
----
-
-# 6. Bookmarking
-
-Users can bookmark an article directly from the digest or article detail screen.
-
-Bookmark state:
-
-```text
-♡
-```
-
-becomes:
-
-```text
-♥
-```
-
-The UI updates immediately using Riverpod.
-
----
-
-# 7. Persistent Bookmarks
-
-Bookmarks are stored locally on the device.
-
-Closing and reopening the application does not remove saved articles.
-
-Data flow:
-
-```text
-User taps Bookmark
-        ↓
-Bookmark Provider
-        ↓
-Bookmark Repository
-        ↓
-Local Storage
-```
-
----
-
-# 8. Remove Bookmarks
-
-Users can remove individual bookmarks.
-
-Supported interactions include:
-
-* Bookmark button
-* Delete action
-* Swipe-to-delete
-
-Example:
-
-```text
-Article
-   ← Swipe
-      ↓
-   Remove
-```
-
----
-
-# 9. Undo Bookmark Removal
-
-When a bookmark is removed, the application can display a Snackbar:
-
-```text
-Article removed
-
-                 UNDO
-```
-
-Selecting `UNDO` restores the article.
-
----
-
-# 10. Explore
-
-The Explore screen allows users to discover stories across available topics.
-
-Example:
-
-```text
-Explore
-
-Search stories...
-
-Topics
-
-Technology
-AI
-Business
-Science
-Startups
-Sports
-World
-Health
-Finance
-Gaming
-```
-
----
-
-# 11. Edit Interests
-
-Users can modify their selected topics after onboarding.
-
-Example:
-
-```text
-Your Interests
-
-✓ Technology
-✓ AI
-✓ Startups
-○ Sports
-○ Science
-○ Finance
-
-[Save Changes]
-```
-
-Updating interests automatically updates the digest.
-
----
-
-# 12. Search
-
-Users can search the local article dataset.
-
-Example:
-
-```text
-Search BriefDaily
-
-"artificial intelligence"
-
-Results
-
-New AI model released...
-AI changes software development...
-```
-
----
-
-# 13. Pull to Refresh
-
-The digest supports pull-to-refresh.
-
-```text
-↓ Pull
-
-Refreshing your brief...
-
-Updated
-```
-
-Flutter's `RefreshIndicator` can be used for this behavior.
-
----
-
-# 14. Loading Skeletons
-
-Instead of displaying a plain loading indicator, BriefDaily can display article skeleton cards.
-
-Example:
-
-```text
-┌───────────────────────────┐
-│ █████████████████         │
-│                           │
-│ ████████████████████      │
-│ ███████████               │
-│                           │
-│ ███████     █████         │
-└───────────────────────────┘
-```
-
----
-
-# 15. Empty States
-
-The application provides meaningful empty states.
-
-### No Bookmarks
-
-```text
-        🔖
-
-Nothing saved yet
-
-Articles you bookmark
-will appear here.
-
-[Explore Stories]
-```
-
-### No Search Results
-
-```text
-No stories found
-
-Try another keyword.
-```
-
-### No Topics
-
-```text
-Choose your interests
-
-Select topics to personalize
-your daily brief.
-
-[Choose Topics]
-```
-
----
-
-# 16. Dark Mode
-
-BriefDaily supports:
-
-* Light mode
-* Dark mode
-* System theme
-
-Users can switch between them from Settings.
-
----
-
-# 17. Responsive UI
-
-The application is designed for different screen sizes.
-
-Supported layouts include:
-
-* Mobile
-* Large phones
-* Tablets
-
-The layout adapts using:
-
-* `LayoutBuilder`
-* `MediaQuery`
-* `Flexible`
-* `Expanded`
-* `GridView`
-* Responsive spacing
-
----
-
-# 🧭 User Journey
-
-The primary user journey is:
-
-```text
-                         ┌───────────┐
-                         │   Splash  │
-                         └─────┬─────┘
-                               ↓
-                         ┌───────────┐
-                         │  Welcome  │
-                         └─────┬─────┘
-                               ↓
-                    ┌─────────────────────┐
-                    │  Choose Your Topics │
-                    └──────────┬──────────┘
-                               ↓
-                    ┌─────────────────────┐
-                    │ Personalizing Brief │
-                    └──────────┬──────────┘
-                               ↓
-                    ┌─────────────────────┐
-                    │    Daily Digest     │
-                    └──────────┬──────────┘
-                               ↓
-                       ┌───────┴───────┐
-                       ↓               ↓
-                 Article Detail     Explore
-                       │
-                       ↓
-                  Bookmark
-                       │
-                       ↓
-                  Bookmarks
-                       │
-                       ↓
-                  Remove / Undo
-                       │
-                       ↓
-                 Edit Interests
-                       │
-                       ↓
-                  Updated Feed
-```
-
----
-
-# 📱 Application Screens
-
-The planned application contains the following screens.
-
-## Onboarding
-
-1. Splash Screen
-2. Welcome Screen
-3. Onboarding Information
-4. Topic Selection
-5. Personalization Loading
-
-## Main Application
-
-6. Home / Daily Digest
-7. Article Detail
-8. Explore
-9. Bookmarks
-10. Profile / Settings
-
-## Preference Management
-
-11. Edit Topics
-12. Theme Settings
-
-## Supporting States
-
-13. Loading State
-14. Empty State
-15. Error State
-16. Bookmark Undo State
-
----
-
-# 🛠 Technology Stack
-
-## Frontend
-
-**Flutter**
-
-Flutter is used to build the cross-platform mobile application.
-
-## Programming Language
-
-**Dart**
-
-Used for:
-
-* UI logic
-* Models
-* Providers
-* Repositories
-* Application state
-* Business logic
-
-## State Management
-
-**Riverpod**
-
-Used for:
-
-* Topic state
-* Article state
-* Bookmark state
-* Preference state
-* Reactive UI updates
-
-## UI Framework
-
-**Material 3**
-
-Used for:
-
-* Components
-* Themes
-* Typography
-* Buttons
-* Cards
-* Navigation
-* Color schemes
-
-## Local Storage
-
-Recommended:
-
-**Hive / Hive CE**
-
-Used to persist:
-
-* Bookmarks
-* Selected topics
-* Preferences
-
-## Design
-
-**Figma**
-
-Used to design:
-
-* User flows
-* Screens
-* Components
-* Responsive layouts
-* Interactive prototype
-
----
-
-# 🏗 Architecture
-
-BriefDaily follows a feature-oriented architecture.
-
-```text
-┌─────────────────────────────┐
-│            UI               │
-│       Flutter Widgets       │
-└──────────────┬──────────────┘
-               ↓
-┌─────────────────────────────┐
-│          Riverpod           │
-│       State Providers       │
-└──────────────┬──────────────┘
-               ↓
-┌─────────────────────────────┐
-│        Repositories         │
-│     Data Access Layer       │
-└──────────────┬──────────────┘
-               ↓
-┌─────────────────────────────┐
-│       Local / Mock Data     │
-│       JSON / Hive           │
-└─────────────────────────────┘
-```
-
-The UI should not directly manipulate persistent storage.
-
-Instead:
-
-```text
-UI
- ↓
-Provider
- ↓
-Repository
- ↓
-Storage
-```
-
-This keeps the code easier to maintain and test.
-
----
-
-# 📁 Project Structure
-
-Recommended structure:
-
-```text
-briefdaily/
-│
-├── android/
-├── ios/
-├── web/
-├── macos/
-├── windows/
-├── linux/
-│
-├── assets/
-│   ├── images/
-│   ├── icons/
-│   └── data/
-│
-├── lib/
-│   │
-│   ├── main.dart
-│   │
-│   ├── app/
-│   │   ├── app.dart
-│   │   ├── router.dart
-│   │   └── theme/
-│   │       ├── app_theme.dart
-│   │       ├── app_colors.dart
-│   │       ├── app_typography.dart
-│   │       └── app_spacing.dart
-│   │
-│   ├── core/
-│   │   ├── constants/
-│   │   ├── extensions/
-│   │   ├── utils/
-│   │   ├── errors/
-│   │   └── widgets/
-│   │
-│   ├── models/
-│   │   ├── article.dart
-│   │   ├── topic.dart
-│   │   └── user_preferences.dart
-│   │
-│   ├── data/
-│   │   ├── mock_articles.dart
-│   │   ├── mock_topics.dart
-│   │   └── repositories/
-│   │       ├── article_repository.dart
-│   │       ├── bookmark_repository.dart
-│   │       └── preferences_repository.dart
-│   │
-│   ├── providers/
-│   │   ├── article_provider.dart
-│   │   ├── bookmark_provider.dart
-│   │   ├── topic_provider.dart
-│   │   ├── preferences_provider.dart
-│   │   └── theme_provider.dart
-│   │
-│   ├── features/
-│   │   │
-│   │   ├── onboarding/
-│   │   │   ├── welcome_screen.dart
-│   │   │   ├── onboarding_screen.dart
-│   │   │   ├── topic_selection_screen.dart
-│   │   │   └── personalization_screen.dart
-│   │   │
-│   │   ├── digest/
-│   │   │   ├── digest_screen.dart
-│   │   │   ├── article_detail_screen.dart
-│   │   │   └── widgets/
-│   │   │       ├── article_card.dart
-│   │   │       ├── featured_article_card.dart
-│   │   │       ├── topic_chip.dart
-│   │   │       ├── article_skeleton.dart
-│   │   │       └── digest_header.dart
-│   │   │
-│   │   ├── explore/
-│   │   │   ├── explore_screen.dart
-│   │   │   └── widgets/
-│   │   │       └── topic_grid.dart
-│   │   │
-│   │   ├── bookmarks/
-│   │   │   ├── bookmarks_screen.dart
-│   │   │   └── widgets/
-│   │   │       └── bookmark_card.dart
-│   │   │
-│   │   └── profile/
-│   │       ├── profile_screen.dart
-│   │       ├── edit_topics_screen.dart
-│   │       └── settings_screen.dart
-│   │
-│   └── navigation/
-│       └── bottom_navigation.dart
-│
-├── test/
-│   ├── models/
-│   ├── providers/
-│   ├── repositories/
-│   └── widgets/
-│
-├── integration_test/
-│
-├── pubspec.yaml
-├── analysis_options.yaml
-├── README.md
-└── .gitignore
-```
-
----
-
-# 🔄 State Management
-
-Riverpod is responsible for the application's reactive state.
-
-## Topic State
-
-Responsible for:
-
-* Selected topics
-* Adding topics
-* Removing topics
-* Saving topics
-* Loading saved topics
-
-Conceptual provider:
-
-```dart
-selectedTopicsProvider
-```
-
----
-
-# 📰 Article State
-
-Responsible for:
-
-* Article collection
-* Digest filtering
-* Sorting
-* Search
-* Featured article
-* Refreshing
-
-Conceptual provider:
-
-```dart
-digestProvider
-```
-
-The digest depends on:
-
-```text
-Selected Topics
-        ↓
-Article Provider
-        ↓
-Filtered Articles
-        ↓
-Sorted Articles
-```
-
----
-
-# 🔖 Bookmark State
-
-Responsible for:
-
-* Bookmarking
-* Removing bookmarks
-* Checking bookmark state
-* Loading saved bookmarks
-
-Conceptual provider:
-
-```dart
-bookmarkProvider
-```
-
----
-
-# 🎨 Theme State
-
-Responsible for:
-
-* Light theme
-* Dark theme
-* System theme
-
-Conceptual provider:
-
-```dart
-themeProvider
-```
-
----
-
-# 🔄 Data Flow
-
-The main reactive data flow is:
-
-```text
-              USER SELECTS TOPIC
-                       │
-                       ↓
-             Topic State Provider
-                       │
-                       ↓
-              Selected Topic List
-                       │
-                       ↓
-                Digest Provider
-                       │
-                       ↓
-              Filter Article Data
-                       │
-                       ↓
-              Sort By Published Time
-                       │
-                       ↓
-                  UI Updates
-```
-
-No manual page refresh should be necessary.
-
----
-
-# 🧠 Personalization Logic
-
-BriefDaily does not require machine learning for its core personalization.
-
-A rule-based approach is sufficient.
-
-## Step 1 — Topic Match
-
-Articles are filtered based on selected topics.
-
-```text
-Selected Topics:
-
-AI
-Technology
-Startups
-```
-
-Only matching articles appear in the primary digest.
-
----
-
-## Step 2 — Recency
-
-Articles are sorted by:
-
-```text
-publishedAt DESC
-```
-
-Newest articles appear first.
-
----
-
-## Step 3 — Optional Relevance Score
-
-For an enhanced version, articles can receive a relevance score.
-
-Example:
-
-```text
-Topic Match       +10
-Recent Article     +5
-Previously Saved   +3
-Featured           +2
-────────────────────
-Total              20
-```
-
-Articles can then be ordered using the score.
-
-This is intentionally a lightweight rule-based system rather than a machine-learning model.
-
----
-
-# 🗃 Local Storage
-
-Persistent data should be stored locally.
-
-## Bookmarks
-
-Each saved article should contain:
-
-```text
-id
-title
-source
-topic
-imageUrl
-summary
-publishedAt
-author
-url
-readingTime
-bookmarkedAt
-```
-
-## Preferences
-
-Store:
-
-```text
-selectedTopics
-themePreference
-onboardingCompleted
-```
-
----
-
-# 🎨 UI & Design System
-
-BriefDaily follows an editorial design language.
-
-The design should feel closer to a modern digital magazine than a generic dashboard.
-
----
-
-## Typography
-
-Typography hierarchy:
-
-```text
-Display
-↓
-Large editorial headlines
-
-Headline
-↓
-Article titles
-
-Title
-↓
-Section titles
-
-Body
-↓
-Descriptions
-
-Label
-↓
-Metadata
-```
-
-Example:
-
-```text
-YOUR DAILY BRIEF
-
-32px / Bold
-```
-
-Article headline:
-
-```text
-New AI tools are changing
-how developers build software
-
-24px / SemiBold
-```
-
-Metadata:
-
-```text
-TechCrunch · 2h ago
-
-12px / Medium
-```
-
----
-
-# 🎨 Color System
-
-The exact colors can be defined in Figma and Flutter theme files.
-
-Recommended visual direction:
-
-### Light Theme
-
-```text
-Background
-Off-white
-
-Surface
-White
-
-Primary
-Deep Blue
-
-Text
-Dark Charcoal
-
-Secondary Text
-Muted Grey
-```
-
-### Dark Theme
-
-```text
-Background
-Near Black
-
-Surface
-Dark Grey
-
-Primary
-Blue
-
-Text
-Off White
-
-Secondary Text
-Muted Grey
-```
-
----
-
-# 🧩 Reusable UI Components
-
-The application should use reusable components rather than duplicating UI.
-
-Important components:
-
-```text
-ArticleCard
-FeaturedArticleCard
-BookmarkButton
-TopicChip
-TopicCard
-SearchBar
-DigestHeader
-EmptyState
-ErrorState
-LoadingSkeleton
-PrimaryButton
-SecondaryButton
-BottomNavigation
-```
-
----
-
-# 📐 Responsive Design
-
-BriefDaily should adapt to different screen sizes.
-
-## Mobile
-
-Primary layout:
-
-```text
-Single column
-```
-
-Example:
-
-```text
-┌──────────────────────┐
-│ Header               │
-├──────────────────────┤
-│ Featured Article     │
-├──────────────────────┤
-│ Article              │
-├──────────────────────┤
-│ Article              │
-├──────────────────────┤
-│ Article              │
-├──────────────────────┤
-│ Bottom Navigation    │
-└──────────────────────┘
-```
-
----
-
-## Tablet
-
-Use a wider layout:
-
-```text
-┌───────────┬─────────────────────────┐
-│           │                         │
-│ Navigation│     News Digest         │
-│           │                         │
-│ Home      │ ┌────────┐ ┌────────┐  │
-│ Explore   │ │ Story  │ │ Story  │  │
-│ Saved     │ └────────┘ └────────┘  │
-│ Settings  │                         │
-└───────────┴─────────────────────────┘
-```
-
----
-
-# 🧭 Navigation
-
-Recommended navigation:
-
-```text
-Home
-Explore
-Bookmarks
-Profile
-```
-
-Using Material 3:
-
-```dart
-NavigationBar
-```
-
-Navigation should preserve the state of each major section where appropriate.
-
----
-
-# 📰 Article Model
-
-Example model:
-
-```dart
-class Article {
-  final String id;
-  final String title;
-  final String source;
-  final String topic;
-  final String imageUrl;
-  final String summary;
-  final String content;
-  final DateTime publishedAt;
-  final String author;
-  final String url;
-  final int readingTime;
-
-  const Article({
-    required this.id,
-    required this.title,
-    required this.source,
-    required this.topic,
-    required this.imageUrl,
-    required this.summary,
-    required this.content,
-    required this.publishedAt,
-    required this.author,
-    required this.url,
-    required this.readingTime,
-  });
-}
-```
-
----
-
-# 🏷 Topic System
-
-Suggested topics:
-
-```text
-Technology
-Artificial Intelligence
-Startups
-Business
-Finance
-Science
-Space
-Health
-Sports
-World
-Politics
-Climate
-Gaming
-Entertainment
-Design
-Cybersecurity
-```
-
-Topics should be represented as structured data rather than hardcoded UI labels.
-
-Example:
-
-```dart
-class Topic {
-  final String id;
-  final String name;
-  final String icon;
-}
-```
-
----
-
-# 🔖 Bookmark System
-
-The bookmark workflow is:
-
-```text
-Article
-   ↓
-Tap Bookmark
-   ↓
-Bookmark Provider
-   ↓
-Check Existing Bookmark
-   ↓
-Add / Remove
-   ↓
-Persist Locally
-   ↓
-Update UI
-```
-
-Bookmark state should be reactive.
-
-If an article is bookmarked from the article detail page, the bookmark state should immediately reflect on the digest when the user returns.
-
----
-
-# ⏳ Loading States
-
-The application should have clear loading states.
-
-Recommended:
-
-```text
-Loading Skeleton
-```
-
-instead of displaying:
-
-```text
-Loading...
-```
-
-Skeleton components should resemble the final article card.
-
----
-
-# ⚠️ Error States
-
-If data loading fails:
-
-```text
-Couldn't load your digest
-
-Something went wrong while
-loading your stories.
-
-[Try Again]
-```
-
-The error state should provide a recovery action.
-
----
-
-# ♿ Accessibility
-
-Accessibility should be considered throughout development.
-
-The application should support:
-
-* Semantic labels
-* Screen readers
-* Large touch targets
-* Text scaling
-* Good color contrast
-* Meaningful button labels
-* Non-color-dependent status indicators
-
-Example:
-
-```dart
-Semantics(
-  label: 'Bookmark article',
-  button: true,
-  child: ...
-)
-```
-
----
-
-# 🎨 Figma Design
-
-Figma should contain the complete product journey.
-
-## Required Frames
-
-```text
-01 — Splash
-02 — Welcome
-03 — Onboarding
-04 — Topic Selection
-05 — Topic Selection Selected
-06 — Personalization
-07 — Daily Digest
-08 — Article Detail
-09 — Bookmark Interaction
-10 — Bookmarks
-11 — Remove Bookmark
-12 — Explore
-13 — Edit Topics
-14 — Profile
-15 — Settings
-16 — Dark Mode
-17 — Tablet Layout
-```
-
----
-
-# 🧱 Figma Component System
-
-Create reusable Figma components for:
-
-```text
-Buttons
-Cards
-Article Cards
-Featured Cards
-Topic Chips
-Topic Cards
-Navigation
-App Bars
-Bookmark Buttons
-Search
-Snackbars
-Empty States
-Loading States
-```
-
-Use variants for:
-
-```text
-Default
-Selected
-Pressed
-Disabled
-Bookmarked
-Unbookmarked
-```
-
----
-
-# 🧪 Testing
-
-Testing should cover the most important application logic.
-
-## Unit Tests
-
-Test:
-
-* Article sorting
-* Topic filtering
-* Bookmark logic
-* Preference persistence
-* Relevance scoring
-
-Example:
-
-```text
-Given selected topic = AI
-
-When digest is generated
-
-Then only AI articles
-should appear in the filtered feed.
-```
-
----
-
-# Widget Tests
-
-Test:
-
-* Article card rendering
-* Bookmark button
-* Topic selection
-* Empty states
-* Navigation
-* Search UI
-
----
-
-# Integration Tests
-
-Important journey:
-
-```text
-Launch App
- ↓
-Choose Topics
- ↓
-Continue
- ↓
-Open Digest
- ↓
-Open Article
- ↓
-Bookmark Article
- ↓
-Open Bookmarks
- ↓
-Verify Article
- ↓
-Remove Article
-```
-
----
-
-# 📦 Installation
-
-## Requirements
-
-Install:
-
-* Flutter SDK
-* Dart SDK
-* Android Studio or Xcode
-* VS Code or Android Studio
-* Git
-
-Verify Flutter:
-
-```bash
-flutter doctor
-```
-
----
-
-# 📥 Clone Repository
-
-```bash
-git clone <repository-url>
-```
-
-Navigate into the project:
-
-```bash
-cd briefdaily
-```
-
----
-
-# 📦 Install Dependencies
-
-Run:
-
-```bash
-flutter pub get
-```
-
----
-
-# ▶️ Run Application
-
-Run on the connected device:
-
-```bash
-flutter run
-```
-
-Or specify a device:
-
-```bash
-flutter devices
-```
-
-Then:
-
-```bash
-flutter run -d <device-id>
-```
-
----
-
-# 🧹 Code Formatting
-
-Format the project:
-
-```bash
-dart format .
-```
-
----
-
-# 🔍 Static Analysis
-
-Run:
-
-```bash
-flutter analyze
-```
-
-The project should have no analyzer errors before committing.
-
----
-
-# 🧪 Run Tests
-
-Run all tests:
-
-```bash
-flutter test
-```
-
----
-
-# 🏗 Build Android
-
-Debug:
-
-```bash
-flutter build apk --debug
-```
-
-Release:
-
-```bash
-flutter build apk --release
-```
-
----
-
-# 🍎 Build iOS
-
-On macOS:
-
-```bash
-flutter build ios
-```
-
----
-
-# 🌐 Build Web
-
-If web support is enabled:
-
-```bash
-flutter build web
-```
-
----
-
-# 🔐 Environment Configuration
-
-If a real news API is introduced later, API keys should not be hardcoded into source files.
-
-Use environment configuration.
-
-Example:
-
-```text
-NEWS_API_KEY
-NEWS_API_BASE_URL
-```
-
-Never commit:
-
-```text
-.env
-```
-
-or API credentials to Git.
-
----
-
-# 🧑‍💻 Development Guidelines
-
-## 1. Keep Widgets Small
-
-Avoid putting the entire application into a single screen.
-
-Bad:
-
-```text
-digest_screen.dart
-→ 1000+ lines
-```
-
-Preferred:
-
-```text
-digest_screen.dart
-
-article_card.dart
-featured_article_card.dart
-topic_chip.dart
-digest_header.dart
-```
-
----
-
-## 2. Keep Business Logic Outside UI
-
-Avoid:
-
-```dart
-onPressed: () {
-  // Large filtering logic
-  // Storage logic
-  // Sorting logic
-}
-```
-
-Instead:
-
-```text
-UI
- ↓
-Provider
- ↓
-Repository
-```
-
----
-
-## 3. Use Immutable State
-
-State should preferably be represented using immutable models and state objects.
-
----
-
-## 4. Avoid Hardcoded Strings
-
-Use centralized constants where appropriate.
-
----
-
-## 5. Avoid Hardcoded Colors
-
-Colors should come from the application theme.
-
-Instead of:
-
-```dart
-Colors.blue
-```
-
-prefer:
-
-```dart
-Theme.of(context).colorScheme.primary
-```
-
----
-
-## 6. Use Reusable Components
-
-If the same UI appears more than once, consider turning it into a reusable widget.
-
----
-
-# 🔮 Future Enhancements
-
-The current version can later evolve into a production news platform.
-
-Potential improvements include:
-
-## Real News API
-
-Replace mock data with a real news service.
-
-```text
-News API
-   ↓
-Repository
-   ↓
-Riverpod
-   ↓
-Flutter UI
-```
-
----
-
-## Offline Mode
-
-Cache articles locally and allow users to read previously loaded content without an internet connection.
-
----
-
-## Push Notifications
-
-Send:
-
-```text
-Your Morning Brief is Ready
-```
-
-or:
-
-```text
-5 new stories match your interests
-```
-
----
-
-## Advanced Personalization
-
-Use reading behavior to improve recommendations.
-
-Potential signals:
-
-```text
-Topics selected
-Articles opened
-Articles bookmarked
-Reading time
-Search history
-```
-
----
-
-## Reading History
-
-Track recently opened articles.
-
-```text
-Recently Read
-
-AI changes software development
-30 minutes ago
-
-The future of robotics
-Yesterday
-```
-
----
-
-## Share Articles
-
-Allow users to share stories.
-
-```text
-Share
-```
-
-using the platform's native share functionality.
-
----
-
-## Deep Linking
-
-Allow links such as:
-
-```text
-briefdaily://article/article_001
-```
-
-to open a specific article.
-
----
-
-## Cloud Sync
-
-Future versions could synchronize:
-
-* Bookmarks
-* Preferences
-* Reading history
-* User account
-
-across devices.
-
----
-
-# 📊 Project Deliverables
-
-The final submission should contain:
-
-## 1. Figma Design
-
-Complete flow:
-
-```text
-Topic Selection
-        ↓
-Digest
-        ↓
-Article
-        ↓
-Bookmark
-        ↓
-Bookmarks
-```
-
----
-
-## 2. Flutter UI
-
-Implemented:
-
-* Topic picker
-* Digest
-* Article cards
-* Article detail
-* Bookmarks
-* Explore
-* Settings
-
----
-
-## 3. Material 3 Theme
-
-Includes:
-
-* Editorial typography
-* Light theme
-* Dark theme
-* Consistent spacing
-* Component styling
-
----
-
-## 4. Riverpod Logic
-
-Includes:
-
-* Topic state
-* Digest filtering
-* Article sorting
-* Bookmark state
-* Preference state
-
----
-
-## 5. Local Storage
-
-Persistent:
-
-* Selected topics
-* Bookmarks
-* Preferences
-
----
-
-## 6. Responsive Prototype
-
-Supported:
-
-* Mobile
-* Tablet
-
----
-
-# 📝 Evaluation Mapping
-
-BriefDaily directly addresses the project requirements.
-
-| Requirement          | BriefDaily Implementation         |
-| -------------------- | --------------------------------- |
-| Topic Selection      | Interactive topic cards/chips     |
-| News Digest          | Personalized article feed         |
-| Bookmarks            | Persistent bookmark system        |
-| ListView             | Article lists                     |
-| Card                 | Article cards                     |
-| Icon                 | Bookmark/navigation/topic icons   |
-| Material 3           | Application-wide Material 3 theme |
-| Editorial Typography | Custom headline hierarchy         |
-| Riverpod             | Reactive application state        |
-| Topic Filtering      | Digest reacts to selected topics  |
-| Persistent Bookmarks | Local storage                     |
-| Remove Bookmarks     | Delete/swipe action               |
-| Latest First         | Publication timestamp sorting     |
-| Figma                | Complete guided user flow         |
-| Responsive           | Mobile and tablet layouts         |
-
----
-
-# 🏆 What Makes BriefDaily Stand Out
-
-BriefDaily goes beyond the minimum assignment requirements by combining the required functionality into a coherent product experience.
-
-The project demonstrates:
-
-### Product Thinking
-
-Users are guided through:
-
-```text
-Discover
-→ Personalize
-→ Read
-→ Save
-→ Return
-```
-
-### Reactive State Management
-
-Changing a topic immediately changes the digest through Riverpod.
-
-### Persistent State
-
-Bookmarks and preferences survive application restarts.
-
-### Editorial UI
-
-The design emphasizes typography, hierarchy, whitespace, and content readability.
-
-### Production-Oriented Architecture
-
-The application separates:
-
-```text
-UI
-State
-Business Logic
-Repositories
-Storage
-```
-
-### Responsive Design
-
-The same product adapts to mobile and tablet layouts.
-
-### User Experience
-
-The project includes:
-
-* Loading states
-* Empty states
-* Error states
-* Undo actions
-* Swipe interactions
-* Dark mode
-* Search
-* Article details
-* Topic management
-
----
-
-# 📌 Core Product Principle
-
-The application should always prioritize:
-
-```text
-RELEVANCE
-    +
-SIMPLICITY
-    +
-READABILITY
-    +
-PERSONALIZATION
-```
-
-BriefDaily should not feel like a generic list of news articles.
-
-It should feel like a **personal daily briefing**.
-
----
-
-# 🗺️ Development Roadmap
-
-## Phase 1 — Project Setup
-
-* [x] Create Flutter project
-* [x] Configure Material 3
-* [x] Configure folder architecture
-* [x] Add Riverpod
-* [x] Add local storage
-* [x] Configure theme
-
----
-
-## Phase 2 — Data Layer
-
-* [x] Create Article model
-* [x] Create Topic model
-* [x] Create mock article dataset (Replaced with live API)
-* [x] Create repositories
-* [x] Implement local storage (Migrated to Firebase)
-
----
-
-## Phase 3 — Onboarding
-
-* [x] Splash screen
-* [x] Welcome screen
-* [x] Onboarding
-* [x] Topic selection
-* [x] Topic persistence
-* [x] Personalization screen
-
 ---
-
-## Phase 4 — Digest
-
-* [x] Home screen
-* [x] Digest header
-* [x] Featured article
-* [x] Article cards
-* [x] Topic filtering
-* [x] Latest-first sorting
-* [x] Pull-to-refresh
-
----
-
-## Phase 5 — Article Experience
-
-* [x] Article detail
-* [x] Hero image
-* [x] Article metadata
-* [x] Reading time
-* [x] Bookmark action
-* [x] Reading progress
-
----
-
-## Phase 6 — Bookmarks
-
-* [x] Bookmark provider
-* [x] Bookmark persistence
-* [x] Bookmarks screen
-* [x] Remove bookmark
-* [x] Swipe-to-delete
-* [x] Undo action
-* [x] Empty state
-
----
-
-## Phase 7 — Explore & Preferences
-
-* [x] Explore screen
-* [x] Search
-* [x] Topic filtering
-* [x] Edit interests
-* [x] Settings
-* [x] Theme switching
-
----
-
-## Phase 8 — Polish
-
-* [x] Loading skeletons
-* [x] Error states
-* [x] Animations
-* [x] Accessibility
-* [x] Responsive tablet UI
-* [x] Dark mode
-* [x] UI consistency
-
----
-
-## Phase 9 — Testing
-
-* [x] Model tests
-* [x] Provider tests
-* [x] Repository tests
-* [x] Widget tests
-* [x] Integration tests
-
----
-
-## 🚀 Phase 11 & 12 — Extra Premium Features
-* [x] **Real Cloud Backend (Firebase):** Live user Authentication (Login/Signup).
-* [x] **Live Global News (NewsAPI):** Live global headlines instead of mock data.
-* [x] **Text-to-Speech (TTS):** Article dictation for accessibility.
-* [x] **Gamification:** Consecutive daily reading streak tracking.
-
----
-
-## Phase 10 — Final Submission
-
-* [ ] Final Figma prototype
-* [x] README Updated
-* [ ] Screenshots
-* [ ] Demo video
-* [ ] Source code
-* [ ] APK
-* [ ] Test results
-* [ ] Project presentation
-
----
-
-
 
 ## 📸 Screenshots & Demo
 
@@ -2265,78 +25,1169 @@ Here is a look at the final application in action!
 - [Watch the Demo Video](docs/demo_video.mov)
 - [View the Project Documentation (PDF)](docs/Briefdaily.pdf)
 
+---
 
-The final README can include screenshots for:
+## 🔗 Project Links
+
+### 💻 GitHub Repository
+
+https://github.com/vijayKota2776/BriefDaily
+
+### 🎨 Figma Design
+
+https://www.figma.com/design/4XM721wPZWIhMLqEBanRYu
+
+---
+
+# 📋 Table of Contents
+
+- [Overview](#-overview)
+- [Problem Statement](#-problem-statement)
+- [Objectives](#-objectives)
+- [Key Features](#-key-features)
+- [Application Flow](#-application-flow)
+- [Screens](#-screens)
+- [Technology Stack](#-technology-stack)
+- [Architecture](#-architecture)
+- [Project Structure](#-project-structure)
+- [State Management](#-state-management)
+- [News Retrieval](#-news-retrieval)
+- [Authentication](#-authentication)
+- [Bookmark Persistence](#-bookmark-persistence)
+- [Responsive Design](#-responsive-design)
+- [UI/UX Design](#-uiux-design)
+- [Figma Design](#-figma-design)
+- [Installation](#-installation)
+- [Configuration](#-configuration)
+- [Firebase Setup](#-firebase-setup)
+- [NewsAPI Setup](#-newsapi-setup)
+- [Running the Application](#-running-the-application)
+- [Testing](#-testing)
+- [Development Challenges](#-development-challenges)
+- [Security Considerations](#-security-considerations)
+- [Current Project Status](#-current-project-status)
+- [Known Limitations](#-known-limitations)
+- [Future Enhancements](#-future-enhancements)
+- [Coursework Requirement Mapping](#-coursework-requirement-mapping)
+- [Lessons Learned](#-lessons-learned)
+- [Project Resources](#-project-resources)
+- [License](#-license)
+
+---
+
+# 📱 Overview
+
+BriefDaily is designed to make news consumption more focused and personalized.
+
+Instead of presenting users with an overwhelming amount of information, the application allows users to select topics they are interested in and receive a digest centered around those preferences.
+
+Users can:
+
+- Create an account.
+- Sign in securely.
+- Select preferred news topics.
+- Browse a personalized news digest.
+- Read individual articles.
+- View article summaries and information.
+- Bookmark articles.
+- Access saved articles later.
+- Remove bookmarks.
+- Use text-to-speech functionality.
+- Manage preferences and profile information.
+
+The project focuses on combining a clean editorial interface with practical Flutter application architecture.
+
+---
+
+# 🎯 Problem Statement
+
+Modern users consume information from a large number of sources every day.
+
+This can result in:
+
+- Information overload.
+- Difficulty discovering relevant stories.
+- Repeated searches.
+- Excessive scrolling.
+- Difficulty saving useful articles.
+- Difficulty accessing previously discovered stories.
+
+BriefDaily addresses this by allowing users to define their interests and then presenting news based on those selected topics.
+
+---
+
+# 🎯 Objectives
+
+The main objectives of BriefDaily are:
+
+1. Provide a personalized news experience.
+2. Allow users to select topics of interest.
+3. Retrieve real-world news data.
+4. Display current articles in a clean editorial layout.
+5. Sort articles by publication time.
+6. Allow users to bookmark articles.
+7. Persist bookmarks locally.
+8. Provide an article reading interface.
+9. Provide text-to-speech functionality.
+10. Support responsive layouts.
+11. Use reactive state management with Riverpod.
+12. Provide authentication through Firebase.
+13. Create a consistent Material 3 visual system.
+14. Provide a complete Figma-based UI/UX design.
+
+---
+
+# ✨ Key Features
+
+## 🔐 1. Authentication
+
+BriefDaily uses **Firebase Authentication** for user authentication.
+
+Users can:
+
+- Register.
+- Sign in.
+- Sign out.
+- Access authenticated application features.
+
+Firebase is intended to act as the authoritative authentication service.
+
+---
+
+## 🏷️ 2. Personalized Topic Selection
+
+Users can select the topics that they are interested in.
+
+Example topics include:
+
+- Technology
+- Business
+- Science
+- Sports
+- Entertainment
+- Health
+- World
+- Politics
+
+Selected topics are managed using Riverpod and persisted locally.
+
+---
+
+## 📰 3. Personalized News Digest
+
+The main digest screen presents current news based on selected interests.
+
+Each article can contain:
+
+- Headline
+- Source
+- Topic
+- Publication time
+- Article image
+- Reading time
+- Bookmark action
+
+Articles are explicitly sorted using their publication timestamp so that newer articles appear first.
+
+---
+
+## 📖 4. Article Reading
+
+Users can select an article and open a dedicated reading interface.
+
+The reading experience can include:
+
+- Article title
+- Source
+- Publication information
+- Article content
+- Summary
+- Reading time
+- Bookmark action
+- Text-to-speech
+
+---
+
+## 🔖 5. Persistent Bookmarks
+
+Users can save articles for later.
+
+Bookmarks are stored locally using **Hive**.
+
+Instead of storing only an article identifier, the application stores the article representation so that saved article information can remain available locally.
+
+---
+
+## 🗑️ 6. Bookmark Removal
+
+Users can remove individual saved stories.
+
+The bookmark interface supports:
+
+- Individual deletion.
+- Swipe-to-delete.
+- Undo interaction.
+
+---
+
+## 📱 7. Responsive UI
+
+BriefDaily supports different screen sizes.
+
+### Mobile
+
+The application uses a bottom navigation layout.
+
+### Larger Screens
+
+The application can use a NavigationRail layout.
+
+This provides a consistent navigation experience across different screen sizes.
+
+---
+
+## 🎨 8. Material 3
+
+The application uses Flutter's Material 3 design system.
+
+The UI includes:
+
+- Cards
+- FilterChips
+- NavigationBar
+- NavigationRail
+- Buttons
+- Icons
+- Text fields
+- Dialogs
+- Material surfaces
+
+---
+
+## ✍️ 9. Editorial Typography
+
+The interface uses **Inter** as its primary typeface.
+
+Typography hierarchy is used to distinguish:
+
+- Page titles
+- Article headlines
+- Descriptions
+- Metadata
+- Navigation labels
+
+---
+
+## 🔊 10. Text-to-Speech
+
+BriefDaily includes Flutter TTS functionality for supported article content.
+
+This allows users to consume article information through audio.
+
+---
+
+# 🔄 Application Flow
+
+The overall application flow can be represented as:
 
 ```text
-01 — Welcome
-02 — Topic Selection
-03 — Personalized Digest
-04 — Article Detail
-05 — Bookmark
-06 — Bookmarks
-07 — Explore
-08 — Edit Interests
-09 — Dark Mode
-10 — Tablet Layout
+                    ┌─────────────────┐
+                    │   Application   │
+                    │      Launch     │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │ Authentication  │
+                    │      Check      │
+                    └────────┬────────┘
+                             │
+                  ┌──────────┴──────────┐
+                  │                     │
+                  ▼                     ▼
+          ┌───────────────┐     ┌───────────────┐
+          │ Authenticated │     │ Not Logged In │
+          └───────┬───────┘     └───────┬───────┘
+                  │                     │
+                  │                     ▼
+                  │              ┌─────────────┐
+                  │              │   Login /   │
+                  │              │ Registration│
+                  │              └──────┬──────┘
+                  │                     │
+                  └──────────┬──────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │  Onboarding /   │
+                    │ Topic Selection │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │ Save Preferences│
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │  Personalized   │
+                    │   News Digest   │
+                    └────────┬────────┘
+                             │
+                  ┌──────────┴──────────┐
+                  │                     │
+                  ▼                     ▼
+          ┌───────────────┐     ┌───────────────┐
+          │  Read Article │     │   Bookmark    │
+          └───────┬───────┘     └───────┬───────┘
+                  │                     │
+                  ▼                     ▼
+          ┌───────────────┐     ┌───────────────┐
+          │  Reading Mode │     │  Hive Storage │
+          └───────────────┘     └───────┬───────┘
+                                        │
+                                        ▼
+                                ┌───────────────┐
+                                │ Saved Stories │
+                                └───────────────┘
 ```
 
-Example:
+---
 
-```markdown
-![BriefDaily Digest](docs/screenshots/digest.png)
-```
+# 📺 Screens
 
-Recommended documentation structure:
+The application contains the following major screens.
+
+## Authentication
+- Login
+- Registration
+
+## Onboarding
+- Welcome
+- Choose Topics
+- Personalizing
+
+## Main Application
+- Your Brief
+- Article Reading
+- Saved Stories
+- Profile & Settings
+
+---
+
+# 🛠️ Technology Stack
+
+| Technology | Purpose |
+| ---------- | ------- |
+| **Flutter** | Cross-platform application framework |
+| **Dart** | Programming language |
+| **Riverpod** | Reactive state management |
+| **Hive** | Local persistence |
+| **hive_flutter** | Hive integration with Flutter |
+| **Firebase Authentication** | Authentication |
+| **NewsAPI** | News data |
+| **HTTP** | API communication |
+| **Material 3** | UI design system |
+| **Google Fonts** | Typography |
+| **Cached Network Image** | Image caching |
+| **Flutter TTS** | Text-to-speech |
+| **Figma** | UI/UX design |
+
+---
+
+# 🏗️ Architecture
+
+BriefDaily follows a feature-oriented application architecture.
+
+The conceptual architecture is:
 
 ```text
-docs/
-└── screenshots/
-    ├── welcome.png
-    ├── topics.png
-    ├── digest.png
-    ├── article.png
-    ├── bookmarks.png
-    ├── explore.png
-    ├── settings.png
-    ├── dark-mode.png
-    └── tablet.png
+┌───────────────────────────────────────────────┐
+│                   Flutter UI                  │
+│               Screens + Widgets               │
+└───────────────────────┬───────────────────────┘
+                        │
+                        ▼
+┌───────────────────────────────────────────────┐
+│           Riverpod State Management           │
+│     Providers + Reactive Application State    │
+└───────────────────────┬───────────────────────┘
+                        │
+                        ▼
+┌───────────────────────────────────────────────┐
+│            Services / Repositories            │
+└──────────────┬────────────────┬───────────────┘
+               │                │
+               ▼                ▼
+        ┌──────────────┐ ┌──────────────┐
+        │   NewsAPI    │ │     Hive     │
+        │     News     │ │  Local Data  │
+        └──────────────┘ └──────────────┘
+               │                │
+               ▼                ▼
+        ┌──────────────┐ ┌──────────────┐
+        │   Firebase   │ │   Offline    │
+        │     Auth     │ │   Storage    │
+        └──────────────┘ └──────────────┘
 ```
 
 ---
 
-# 📄 License
+# 🧩 Architectural Layers
 
-This project is created as a Flutter application project for educational and demonstration purposes.
+## Presentation Layer
+Responsible for:
+- Screens
+- Widgets
+- Navigation
+- User interactions
+- Responsive layouts
 
-License details can be updated depending on the final distribution requirements.
+## State Management Layer
+Riverpod manages:
+- Selected topics
+- User preferences
+- Digest state
+- Bookmark state
+- Reactive application state
+
+## Service Layer
+Services are responsible for operations such as:
+- News retrieval
+- External API communication
+- Text-to-speech
+- Data transformation
+
+## Repository Layer
+Repositories provide an abstraction between application logic and persistent data. Examples include:
+- Bookmark repository
+- Local preference storage
+
+## Persistence Layer
+Hive is used for local persistence. Examples include:
+- Selected topics
+- User preferences
+- Bookmarked articles
+
+## External Services
+The application communicates with:
+- Firebase Authentication
+- NewsAPI
 
 ---
 
-# 👨‍💻 Project Status
+# 📂 Project Structure
+
+The project follows a feature-first organization.
 
 ```text
-Status: Completed / Ready for Production
-
-UI:                ✅
-Riverpod:          ✅
-Local Storage:     ✅ (Migrated to Firebase)
-Personalization:   ✅
-Figma:             🚧 (Pending User Design)
-Testing:           ✅
-Documentation:     ✅
+lib/
+│
+├── app/
+│   ├── theme/
+│   └── routing/
+│
+├── data/
+│   └── repositories/
+│
+├── features/
+│   ├── auth/
+│   │
+│   ├── digest/
+│   │   ├── screens/
+│   │   └── widgets/
+│   │
+│   ├── onboarding/
+│   │
+│   ├── profile/
+│   │
+│   └── bookmarks/
+│
+├── models/
+├── providers/
+├── services/
+└── main.dart
 ```
 
 ---
 
-# 📰 BriefDaily
+# 🔄 State Management
 
-> **Your news. Your interests. Your daily brief.**
+BriefDaily uses Riverpod for reactive application state.
 
-BriefDaily transforms a large collection of news stories into a focused, personalized reading experience.
+The general flow is:
 
-The application demonstrates modern Flutter development through:
+```text
+       User Interaction
+              │
+              ▼
+      Riverpod Provider
+              │
+              ▼
+ Application / Service Logic
+              │
+              ▼
+        Updated State
+              │
+              ▼
+         UI Rebuild
+```
 
-**Flutter + Dart + Riverpod + Material 3 + Local Persistence + Responsive UI + Editorial Design**
+This allows changes in user preferences and application state to propagate through the UI without manually synchronizing every screen.
 
 ---
+
+# 📰 News Retrieval
+
+News content is retrieved through NewsAPI.
+
+The general data flow is:
+
+```text
+       Selected Topics
+              │
+              ▼
+      Build API Request
+              │
+              ▼
+           NewsAPI
+              │
+              ▼
+        JSON Response
+              │
+              ▼
+       Article Parsing
+              │
+              ▼
+        Article Model
+              │
+              ▼
+     Sort by publishedAt
+              │
+              ▼
+          Digest UI
+```
+
+---
+
+# 🧱 Article Model
+
+The main Article model contains fields such as:
+
+```text
+Article
+│
+├── id
+├── title
+├── summary
+├── content
+├── source
+├── topic
+├── author
+├── readingTime
+├── imageUrl
+├── url
+└── publishedAt
+```
+
+---
+
+# ⏱️ Newest-First Sorting
+
+The application explicitly sorts articles by publication timestamp.
+
+Conceptually:
+
+```dart
+articles.sort(
+  (a, b) => b.publishedAt.compareTo(a.publishedAt),
+);
+```
+
+This ensures that newer stories appear before older stories.
+
+---
+
+# 🔐 Authentication
+
+BriefDaily uses Firebase Authentication.
+
+The intended architecture is:
+
+```text
+┌─────────────────────┐
+│ Flutter Application │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│      Firebase       │
+│   Authentication    │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│   Authentication    │
+│        State        │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│     Application     │
+│     Navigation      │
+└─────────────────────┘
+```
+
+Firebase should remain the authoritative source for authentication state.
+
+## 🚪 Logout
+
+The authentication lifecycle should use Firebase sign-out:
+
+```dart
+await FirebaseAuth.instance.signOut();
+```
+
+The application can then react to the resulting Firebase authentication state. Local storage should be used for application preferences and persistence, rather than being treated as a second independent authentication system.
+
+---
+
+# 🔖 Bookmark Persistence
+
+Bookmarks are stored locally using Hive.
+
+The bookmark flow is:
+
+```text
+       Article
+          │
+          ▼
+   Bookmark Button
+          │
+          ▼
+  Bookmark Provider
+          │
+          ▼
+  Article.toJson()
+          │
+          ▼
+    JSON Encoding
+          │
+          ▼
+        Hive
+```
+
+When the application loads saved stories:
+
+```text
+        Hive
+          │
+          ▼
+     Stored JSON
+          │
+          ▼
+ Article.fromJson()
+          │
+          ▼
+  Bookmark Provider
+          │
+          ▼
+   Saved Stories UI
+```
+
+## 💾 Why Complete Articles Are Stored
+
+An earlier approach stored only article identifiers. That required retrieving article information again.
+
+The improved approach stores the complete article representation. This makes saved article information available locally, even offline.
+
+---
+
+# 📱 Responsive Design
+
+BriefDaily supports multiple screen sizes.
+
+## Mobile
+
+Mobile layouts use a bottom navigation interface.
+
+```text
+┌─────────────────────────────┐
+│                             │
+│        Main Content         │
+│                             │
+├─────────────────────────────┤
+│  Brief   Saved    Profile   │
+└─────────────────────────────┘
+```
+
+## Larger Screens
+
+Larger layouts can use NavigationRail:
+
+```text
+┌──────┬──────────────────────┐
+│      │                      │
+│ Nav  │     Main Content     │
+│ Rail │                      │
+│      │                      │
+└──────┴──────────────────────┘
+```
+
+---
+
+# 🎨 UI/UX Design
+
+The visual design follows a modern editorial news application style.
+
+The design language includes:
+- Dark visual theme.
+- Blue accent color.
+- Inter typography.
+- Rounded cards.
+- Topic chips.
+- Clear headline hierarchy.
+- Metadata labels.
+- Consistent spacing.
+- Material 3 components.
+
+## 🎨 Color System
+
+The primary blue accent used in the interface is: `#2563EB`
+
+The interface uses dark surfaces with blue highlights for important interactive elements.
+
+## ✍️ Typography
+
+BriefDaily uses Inter as the primary typeface.
+
+The typography hierarchy distinguishes:
+
+```text
+Large Page Title
+       │
+       ▼
+Article Headline
+       │
+       ▼
+Supporting Description
+       │
+       ▼
+Source / Metadata
+       │
+       ▼
+Navigation Labels
+```
+
+---
+
+# 📰 Article Cards
+
+Article cards are one of the primary reusable components. A typical card follows this structure:
+
+```text
+┌──────────────────────────────────────┐
+│                                      │
+│            Article Image             │
+│                                      │
+├──────────────────────────────────────┤
+│ Technology                           │
+│                                      │
+│ Article headline goes here and can   │
+│ occupy multiple lines.               │
+│                                      │
+│ Source                   2 hours ago │
+│                                      │
+│ 5 min read                    [Save] │
+└──────────────────────────────────────┘
+```
+
+---
+
+# 🎨 Figma Design
+
+The BriefDaily interface was designed in Figma. The design contains both desktop and mobile screens.
+
+## Desktop Screens
+- Demo 01 — Login
+- Demo 02 — Welcome
+- Demo 03 — Choose Topics
+- Demo 04 — Personalizing
+- Demo 05 — Your Brief
+- Demo 06 — Article Reading
+- Demo 07 — Saved Stories
+- Demo 08 — Profile & Settings
+
+## Mobile Screens
+- Mobile 01 — Login
+- Mobile 02 — Welcome
+- Mobile 03 — Choose Topics
+- Mobile 04 — Personalizing
+- Mobile 05 — Your Brief
+- Mobile 06 — Article Reading
+- Mobile 07 — Saved Stories
+- Mobile 08 — Profile & Settings
+
+## 🔗 Figma Resource
+
+The editable Figma design is available here:
+[https://www.figma.com/design/4XM721wPZWIhMLqEBanRYu](https://www.figma.com/design/4XM721wPZWIhMLqEBanRYu)
+
+---
+
+# 💻 Installation
+
+## Prerequisites
+
+Before running BriefDaily, install:
+- Flutter SDK
+- Dart SDK
+- Android Studio and/or Xcode
+- Git
+- A configured Firebase project
+- A NewsAPI API key
+
+Check Flutter:
+```bash
+flutter --version
+```
+
+Check the development environment:
+```bash
+flutter doctor
+```
+
+## 📥 Clone the Repository
+
+Clone the project:
+```bash
+git clone https://github.com/vijayKota2776/BriefDaily.git
+```
+
+Navigate to the project:
+```bash
+cd BriefDaily
+```
+
+## 📦 Install Dependencies
+
+Run:
+```bash
+flutter pub get
+```
+
+---
+
+# 🔥 Firebase Setup
+
+BriefDaily uses Firebase Authentication.
+
+### Step 1 — Create Firebase Project
+Create a Firebase project through the Firebase Console.
+
+### Step 2 — Enable Authentication
+Enable the authentication providers required by the application.
+
+### Step 3 — Connect the Flutter Application
+Configure the Flutter application with the Firebase project. Depending on the platform, Firebase configuration files may include:
+- `google-services.json`
+- `GoogleService-Info.plist`
+
+Follow the Firebase Flutter configuration process for the target platform.
+
+---
+
+# 📰 NewsAPI Setup
+
+BriefDaily uses NewsAPI to retrieve current news articles.
+
+Create a NewsAPI account and obtain an API key. The API key must be configured securely. Do not commit a real API key to a public GitHub repository.
+
+## 🔑 Configuration
+
+A production-oriented setup should keep secrets outside source control. For example:
+
+```text
+NEWS_API_KEY=<your-api-key>
+```
+
+---
+
+# ▶️ Running the Application
+
+After Firebase and API configuration:
+
+```bash
+flutter run
+```
+
+To see available devices:
+
+```bash
+flutter devices
+```
+
+Then run on a specific device:
+
+```bash
+flutter run -d <device-id>
+```
+
+---
+
+# 🏗️ Building the Application
+
+**Android**
+```bash
+flutter build apk
+```
+
+**iOS**
+```bash
+flutter build ios
+```
+
+**Web**
+```bash
+flutter build web
+```
+
+---
+
+# 🧪 Testing
+
+Run the test suite:
+
+```bash
+flutter test
+```
+
+## 🧪 Current Test Structure
+
+Tests are located inside:
+
+```text
+test/
+│
+├── article_test.dart
+├── digest_provider_test.dart
+│
+└── models/
+    ├── article_test.dart
+    └── user_preferences_test.dart
+```
+
+The current tests cover foundational application logic such as:
+- Article model behavior.
+- Article serialization.
+- User preferences.
+- Digest-related logic.
+- Sorting behavior.
+
+---
+
+# 🔍 Static Analysis
+
+Run:
+
+```bash
+flutter analyze
+```
+
+This checks for:
+- Dart errors.
+- Static analysis warnings.
+- Type-related problems.
+- Unused code.
+
+## ✅ Recommended Verification
+
+Before submitting or releasing the application:
+
+```bash
+flutter clean
+flutter pub get
+flutter analyze
+flutter test
+flutter run
+```
+
+---
+
+# 🛠️ Development Challenges
+
+Several technical challenges were encountered during development.
+
+### 1. Disk Space Problem
+During development, Flutter generated enough build and cache data to cause an `Errno 28` disk-space error.
+The issue was addressed using `flutter clean` along with removing unnecessary build artifacts and cache data.
+
+### 2. Figma Pixel Alignment
+The initial Flutter interface did not perfectly match the Figma design. The UI was refined using Inter typography, Material 3 components, consistent spacing, compact topic tiles, blue accent styling, and refined article card layouts.
+
+### 3. News API Filtering
+The news retrieval implementation needed to correctly respond to the user's selected topics. The retrieval process was improved to use selected topics and explicitly sort the resulting article collection by publication date.
+
+### 4. Authentication State
+Maintaining authentication state independently in both Firebase and local storage can result in inconsistent application state. Hive was updated to remain responsible only for local application preferences and persistent application data, while Firebase Auth manages the actual session.
+
+### 5. Bookmark Storage
+The initial bookmark implementation stored only article IDs. This was improved by serializing complete `Article` objects (`Article.toJson()` -> JSON -> Hive). This provides better offline access to saved article information.
+
+---
+
+# 🔐 Security Considerations
+
+**API Keys**
+Never commit real API keys to a public GitHub repository. Use a secure configuration strategy (`String.fromEnvironment`).
+
+**Firebase Credentials**
+Firebase configuration should be managed according to Firebase's recommended Flutter setup.
+
+**Local Storage**
+Hive should be used for appropriate application-level persistence. Do not store sensitive credentials such as passwords or private tokens inside ordinary unprotected local application storage.
+
+---
+
+# 📊 Current Project Status
+
+BriefDaily currently demonstrates a functional coursework-oriented prototype containing:
+
+- [x] Flutter application.
+- [x] Dart implementation.
+- [x] Material 3 UI.
+- [x] Riverpod state management.
+- [x] Firebase Authentication.
+- [x] NewsAPI integration.
+- [x] Hive persistence.
+- [x] Responsive layouts.
+- [x] Figma UI/UX design.
+- [x] Personalized topic selection.
+- [x] News digest.
+- [x] Article reading.
+- [x] Bookmark persistence.
+- [x] Bookmark removal.
+- [x] Text-to-speech functionality.
+- [x] Basic automated tests.
+
+---
+
+# ⚠️ Known Limitations
+
+1. **External API Dependency**: The news digest depends on NewsAPI availability and network connectivity.
+2. **API Key Security**: Production deployment should use an appropriate secure API-key management strategy.
+3. **Figma Prototype Interactions**: The Figma file contains the major desktop and mobile UI screens, but deeper interactive prototype wiring may be required for usability testing.
+4. **Test Coverage**: The project includes foundational unit tests, but production environments require deeper widget and integration coverage.
+
+---
+
+# 🚀 Future Enhancements
+
+- **Advanced Personalization**: Reading history, topic weighting, and user feedback.
+- **AI Summaries**: Short AI-generated article summaries and key points.
+- **Offline News Cache**: Recently viewed articles cached for offline reading.
+- **Push Notifications**: Morning brief alerts and breaking news.
+- **Reading Analytics**: Articles read, reading time, and favorite topics.
+
+---
+
+# 📋 Coursework Requirement Mapping
+
+| Requirement | Status |
+| ----------- | ------ |
+| Topic Selection | ✅ Implemented |
+| News Digest | ✅ Implemented |
+| Bookmarks | ✅ Implemented |
+| Remove Bookmarks | ✅ Implemented |
+| Riverpod State Management | ✅ Implemented |
+| Material 3 | ✅ Implemented |
+| Editorial Typography | ✅ Implemented |
+| Headline Display | ✅ Implemented |
+| Source Display | ✅ Implemented |
+| Topic Tag | ✅ Supported by Article Model / UI requirement |
+| Publish Time | ✅ Implemented |
+| Newest-First Ordering | ✅ Implemented |
+| Selected Topics Affect Digest | ✅ Implemented |
+| Topic Persistence | ✅ Implemented |
+| Persistent Bookmarks | ✅ Implemented |
+| Responsive UI | ✅ Implemented |
+| Figma Design | ✅ Implemented |
+| Automated Tests | 🟡 Basic coverage |
+| Widget / Integration Testing | 🟡 Can be expanded |
+| Production Security Review | 🟡 Required before production release |
+
+---
+
+# 📚 Lessons Learned
+
+**State Management**
+Reactive state management is most effective when each important piece of state has a clearly defined owner. Riverpod provides a structured mechanism for keeping application state synchronized with the UI.
+
+**API Integration**
+External APIs should not be assumed to always return perfectly ordered or complete data. The application should validate external data, transform it into application models, sort it explicitly, and handle failures appropriately.
+
+**Persistence**
+The persistence strategy should reflect how the application actually uses its data. For BriefDaily, storing complete bookmarked article data provides more local utility than storing only article IDs.
+
+**UI Development**
+Small visual details can significantly affect the quality of an interface. Important details include typography, padding, card dimensions, icon sizing, spacing, colors, and component hierarchy.
+
+**Security**
+Development shortcuts involving API keys can become serious security problems once source code is published. Secrets should be separated from application source code before production deployment.
+
+---
+
+# 📁 Project Resources
+
+**GitHub Repository**
+The complete project source code is available at:
+[https://github.com/vijayKota2776/BriefDaily](https://github.com/vijayKota2776/BriefDaily)
+
+**Figma Design**
+The editable UI/UX design is available at:
+[https://www.figma.com/design/4XM721wPZWIhMLqEBanRYu](https://www.figma.com/design/4XM721wPZWIhMLqEBanRYu)
+
+---
+
+# 📌 Project Summary
+
+BriefDaily is a Flutter-based personalized news digest and bookmarking application designed to make news consumption more focused and manageable.
+
+The project demonstrates the integration of:
+
+```text
+BriefDaily
+│
+┌───────────────┼────────────────┐
+│               │                │
+▼               ▼                ▼
+Flutter      Riverpod       Material 3
+│               │                │
+└───────────────┼────────────────┘
+                │
+        ┌─────────┼─────────┐
+        │         │         │
+        ▼         ▼         ▼
+    Firebase   NewsAPI     Hive
+      Auth        │       Storage
+                  ▼
+         Personalized News Digest
+        ┌─────────┴─────────┐
+        │                   │
+        ▼                   ▼
+ Article Reading        Bookmarks
+        │                   │
+        ▼                   ▼
+   Flutter TTS        Offline Data
+```
+
+The project combines application development, state management, API integration, local persistence, authentication, responsive UI design, and Figma-based product design into a single Flutter application.
+
+---
+
+# 📜 License
+
+This project was developed as a coursework/project prototype. If the project is distributed publicly or commercially in the future, an appropriate open-source or proprietary license should be added based on the intended usage.
+
+---
+**👨‍💻 Project**: BriefDaily — Personalized News Digest & Bookmark App
