@@ -10,7 +10,8 @@ class NewsService {
   static const String _keyP1 = '96d484197099';
   static const String _keyP2 = '4aeca6abd3ea';
   static const String _keyP3 = '7663d8db';
-  static const String _apiKey = String.fromEnvironment('NEWS_API_KEY', defaultValue: '$_keyP1$_keyP2$_keyP3');
+  static const String _envKey = String.fromEnvironment('NEWS_API_KEY');
+  static String get _apiKey => _envKey.isNotEmpty ? _envKey : _keyP1 + _keyP2 + _keyP3;
   static const String _baseUrl = 'https://newsapi.org/v2';
   
   String get _corsPrefix => kIsWeb ? 'https://corsproxy.io/?' : '';
