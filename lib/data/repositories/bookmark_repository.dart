@@ -1,5 +1,7 @@
 import 'dart:convert';
+
 import 'package:hive/hive.dart';
+
 import '../../models/article.dart';
 
 class BookmarkRepository {

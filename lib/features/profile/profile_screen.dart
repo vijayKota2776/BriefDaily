@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -72,6 +73,22 @@ class ProfileScreen extends ConsumerWidget {
             onChanged: (val) {
               if (val != null) {
                 ref.read(preferencesProvider.notifier).updateTheme(val);
+              }
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.logout, color: Colors.red),
+            title: const Text('Log Out', style: TextStyle(color: Colors.red)),
+            onTap: () async {
+              await FirebaseAuth.instance.signOut();
+              await ref.read(preferencesProvider.notifier).logout();
+              if (context.mounted) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login',
+                  (route) => false,
+                );
               }
             },
           ),

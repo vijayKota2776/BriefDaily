@@ -55,9 +55,7 @@ class BookmarksScreen extends ConsumerWidget {
                   direction: DismissDirection.endToStart,
                   onDismissed: (direction) {
                     HapticFeedback.lightImpact();
-                    ref
-                        .read(bookmarkProvider.notifier)
-                        .toggleBookmark(article);
+                    ref.read(bookmarkProvider.notifier).toggleBookmark(article);
 
                     ScaffoldMessenger.of(context).clearSnackBars();
                     ScaffoldMessenger.of(context).showSnackBar(

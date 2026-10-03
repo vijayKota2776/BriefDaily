@@ -77,7 +77,7 @@ class ArticleCard extends ConsumerWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '${article.source} · ${timeago.format(article.publishedAt)} · ${article.readingTime} min',
+                    '${article.source} · ${article.topic.toUpperCase()} · ${timeago.format(article.publishedAt)} · ${article.readingTime} min',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(context).colorScheme.onSurface
                           .withValues(alpha: 0.6),
