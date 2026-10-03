@@ -1,12 +1,15 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 
 import '../models/article.dart';
 
 class NewsService {
-  static const String _apiKey = String.fromEnvironment('NEWS_API_KEY');
+  static const String _apiKey = String.fromEnvironment('NEWS_API_KEY', defaultValue: '96d4841970994aeca6abd3ea7663d8db');
   static const String _baseUrl = 'https://newsapi.org/v2';
+  
+  String get _corsPrefix => kIsWeb ? 'https://corsproxy.io/?' : '';
 
   Future<List<Article>> fetchTopHeadlines(List<String> topics) async {
     List<Article> allArticles = [];
@@ -20,9 +23,8 @@ class NewsService {
     try {
       for (var topic in targetTopics) {
         final query = topic.toLowerCase();
-        final url = Uri.parse(
-          '$_baseUrl/everything?q=$query&language=en&sortBy=publishedAt&pageSize=10&apiKey=$_apiKey',
-        );
+        final targetUrl = '$_baseUrl/everything?q=$query&language=en&sortBy=publishedAt&pageSize=10&apiKey=$_apiKey';
+        final url = Uri.parse('$_corsPrefix${kIsWeb ? Uri.encodeComponent(targetUrl) : targetUrl}');
         final response = await http.get(url);
 
         if (response.statusCode == 200) {
@@ -46,9 +48,9 @@ class NewsService {
 
   Future<List<Article>> searchArticles(String query) async {
     if (query.trim().isEmpty) return [];
-    final url = Uri.parse(
-      '$_baseUrl/everything?q=$query&language=en&sortBy=publishedAt&pageSize=20&apiKey=$_apiKey',
-    );
+    
+    final targetUrl = '$_baseUrl/everything?q=$query&language=en&sortBy=publishedAt&pageSize=20&apiKey=$_apiKey';
+    final url = Uri.parse('$_corsPrefix${kIsWeb ? Uri.encodeComponent(targetUrl) : targetUrl}');
 
     try {
       final response = await http.get(url);
