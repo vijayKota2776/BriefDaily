@@ -8,24 +8,7 @@ The project combines **Flutter Material 3**, **Riverpod state management**, **Fi
 
 ---
 
-## 📸 Screenshots & Demo
 
-Here is a look at the final application in action!
-
-<div style="display: flex; flex-wrap: wrap; gap: 10px;">
-  <img src="docs/screenshot_1.png" width="200" />
-  <img src="docs/screenshot_2.png" width="200" />
-  <img src="docs/screenshot_3.png" width="200" />
-  <img src="docs/screenshot_4.png" width="200" />
-  <img src="docs/screenshot_5.png" width="200" />
-  <img src="docs/screenshot_6.png" width="200" />
-</div>
-
-### 🎥 Demo Video & Documentation
-- [Watch the Demo Video](docs/demo_video.mov)
-- [View the Project Documentation (PDF)](docs/Briefdaily.pdf)
-
----
 
 ## 🔗 Project Links
 
